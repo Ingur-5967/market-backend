@@ -1,0 +1,18 @@
+version: '3'
+services:
+  gateway-server-service:
+    image: gateway-server-service-image:latest
+    hostname: gateway-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    networks:
+      - eureka_network
+    ports:
+      - '8761:8761'
+
+networks:
+  eureka_network:
+    driver: bridge

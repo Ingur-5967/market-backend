@@ -1,0 +1,19 @@
+server:
+  port: ${APPLICATION_PORT}
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.http.server.reactive: DEBUG
+
+spring:
+  application:
+    name: ${APPLICATION_PROJECT_NAME}
+  cloud:
+    compatibility-verifier:
+      enabled: false
+
+eureka:
+  client:
+    fetch-registry: false
+    register-with-eureka: false
