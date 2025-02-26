@@ -1,0 +1,24 @@
+[versions]
+springframework-boot = '3.4.2'
+spring-dependency-management = '1.1.7'
+
+# Utility
+projectlombok-lombok = '1.18.30'
+jetbrains-annotations = '24.1.0'
+
+[plugins]
+springframework-boot = { id = 'org.springframework.boot', version.ref = 'springframework-boot' }
+spring-dependency-management = { id = 'io.spring.dependency-management', version.ref = 'spring-dependency-management' }
+
+[libraries]
+springframework-cloud-starter-gateway = { module='org.springframework.cloud:spring-cloud-starter-gateway', version='4.2.0'}
+springframework-cloud-depend = { module='org.springframework.cloud:spring-cloud-dependencies', version='2024.0.0' }
+springframework-spring-boot-starter-actuator = { module = 'org.springframework.boot:spring-boot-starter-actuator' }
+springframework-spring-boot-starter = { module = 'org.springframework.boot:spring-boot-starter' }
+springframework-spring-boot-loadbalancer = { module = 'org.springframework.cloud:spring-cloud-starter-loadbalancer', version='3.1.4' }
+springframework-spring-boot-configuration-processor = { module = 'org.springframework.boot:spring-boot-configuration-processor' }
+springframework-spring-boot-eureka-client = { module = 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client', version='3.1.4' }
+
+# Utility
+projectlombok-lombok = { module = 'org.projectlombok:lombok', version.ref = 'projectlombok-lombok' }
+jetbrains-annotations = { module = 'org.jetbrains:annotations', version.ref = 'jetbrains-annotations' }
