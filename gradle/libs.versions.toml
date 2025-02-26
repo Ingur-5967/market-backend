@@ -1,0 +1,43 @@
+[versions]
+# Plugins
+springframework-boot = '3.4.2'
+spring-dependency-management = '1.1.7'
+
+# Utility
+projectlombok-lombok = '1.18.30'
+jetbrains-annotations = '24.1.0'
+
+# JWT
+nimbusds-nimbus-jose-jwt = '10.0.1'
+
+# Documentation
+springdoc-springdoc-openapi-starter = '2.6.0'
+
+[libraries]
+# Spring Boot
+springframework-spring-boot-starter-security = { module = 'org.springframework.boot:spring-boot-starter-security' }
+springframework-spring-boot-starter-actuator = { module = 'org.springframework.boot:spring-boot-starter-actuator' }
+springframework-spring-boot-starter-validation = { module = 'org.springframework.boot:spring-boot-starter-validation' }
+springframework-spring-boot-starter-data-jpa = { module = 'org.springframework.boot:spring-boot-starter-data-jpa' }
+springframework-spring-boot-starter-web = { module = 'org.springframework.boot:spring-boot-starter-web' }
+springframework-spring-boot-starter-cache = { module = 'org.springframework.boot:spring-boot-starter-cache' }
+springframework-spring-boot-starter = { module = 'org.springframework.boot:spring-boot-starter' }
+springframework-spring-boot-configuration-processor = { module = 'org.springframework.boot:spring-boot-configuration-processor' }
+springframework-spring-boot-kafka = { module = 'org.springframework.kafka:spring-kafka' }
+
+# Java Web Token
+nimbus-jose-jwt = { module = 'com.nimbusds:nimbus-jose-jwt', version.ref = 'nimbusds-nimbus-jose-jwt' }
+
+#Database
+postgresql-postgresql = { module = 'org.postgresql:postgresql' }
+
+# Utility
+projectlombok-lombok = { module = 'org.projectlombok:lombok', version.ref = 'projectlombok-lombok' }
+jetbrains-annotations = { module = 'org.jetbrains:annotations', version.ref = 'jetbrains-annotations' }
+
+# Documentation
+springdoc-springdoc-openapi-starter-webmvc-ui = { module = 'org.springdoc:springdoc-openapi-starter-webmvc-ui', version.ref = 'springdoc-springdoc-openapi-starter' }
+
+[plugins]
+springframework-boot = { id = 'org.springframework.boot', version.ref = 'springframework-boot' }
+spring-dependency-management = { id = 'io.spring.dependency-management', version.ref = 'spring-dependency-management' }
