@@ -8,15 +8,15 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import ru.solomka.identity.common.EntityRepository;
 import ru.solomka.identity.common.mapper.Mapper;
 import ru.solomka.identity.token.*;
-import ru.solomka.identity.token.mapper.JpaRefreshTokenEntityRefreshTokenEntityMapper;
+import ru.solomka.identity.token.JpaRefreshTokenEntityRefreshTokenEntityMapper;
 
 @Configuration
-@EnableJpaRepositories(basePackageClasses = CrudRefreshTokenRepository.class)
+@EnableJpaRepositories(basePackageClasses = JpaRefreshTokenRepository.class)
 @EntityScan(basePackageClasses = JpaRefreshTokenEntity.class)
 public class RefreshTokenConfiguration {
 
     @Bean
-    RefreshTokenRepository refreshTokenRepository(@NonNull CrudRefreshTokenRepository crudRefreshTokenRepository,
+    RefreshTokenRepository refreshTokenRepository(@NonNull JpaRefreshTokenRepository crudRefreshTokenRepository,
                                                   @NonNull Mapper<RefreshTokenEntity, JpaRefreshTokenEntity> refreshTokenEntityJpaRefreshTokenEntityMapper) {
         return new JpaRefreshEntityRepositoryAdapter(
                 crudRefreshTokenRepository, refreshTokenEntityJpaRefreshTokenEntityMapper

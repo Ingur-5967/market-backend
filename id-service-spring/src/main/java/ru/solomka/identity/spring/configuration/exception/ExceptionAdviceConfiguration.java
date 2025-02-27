@@ -32,7 +32,7 @@ public class ExceptionAdviceConfiguration {
 
     @Bean
     @Order(0)
-    ExceptionFormatProvider exceptionFormatProvider() {
+    ExceptionFormatProvider tokenExceptionFormatProvider() {
         return new StatusCodeRangeExceptionFormatProvider(
                 HttpStatus.SC_FORBIDDEN,
                 TokenException.class

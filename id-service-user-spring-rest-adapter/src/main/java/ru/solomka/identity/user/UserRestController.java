@@ -14,18 +14,17 @@ import ru.solomka.identity.common.mapper.Mapper;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/identity/user")
 @RequiredArgsConstructor
 public class UserRestController {
 
-    @NonNull CommandHandler<GetEntityByIdQuery, UserEntity> commandHandler;
-
+    @NonNull CommandHandler<GetEntityByIdQuery, UserEntity> getEntityByIdQueryCommandHandler;
     @NonNull Mapper<UserEntity, User> mapper;
 
     @GetMapping(value = "/{userId}", produces = "application/json")
     public EntityResponse<User> getUserById(@PathVariable("userId") UUID userId) {
         GetEntityByIdQuery getUserByIdQuery = new GetEntityByIdQuery(userId);
-        UserEntity userEntity = commandHandler.handle(getUserByIdQuery);
+        UserEntity userEntity = getEntityByIdQueryCommandHandler.handle(getUserByIdQuery);
         return EntityResponse.fromObject(mapper.mapToInfrastructure(userEntity)).build();
     }
 }

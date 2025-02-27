@@ -1,12 +1,12 @@
 package ru.solomka.identity.common;
 
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 import ru.solomka.identity.common.exception.EntityNotFoundException;
+import ru.solomka.identity.principal.PrincipalService;
 
 import java.time.Instant;
 import java.util.Optional;
@@ -17,10 +17,11 @@ import java.util.UUID;
 public abstract class EntityService<T extends Entity> {
 
     @NonNull EntityRepository<T> repository;
+    @NotNull PrincipalService principalService;
 
     @NotNull
     public T create(@NotNull T entity) {
-        entity.setId(UUID.randomUUID());
+        entity.setId(principalService.getPrincipal().getId());
         entity.setCreatedAt(Instant.now());
         return repository.create(entity);
     }

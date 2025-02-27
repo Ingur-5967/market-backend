@@ -27,3 +27,4 @@ listOf(
 ).forEach {
     include(it)
 }
+include("id-service-common-spring-jpa")

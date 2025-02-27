@@ -19,7 +19,7 @@ import ru.solomka.identity.common.cqrs.CommandHandler;
 import ru.solomka.identity.token.TokenPair;
 
 @RestController
-@RequestMapping("/identity")
+@RequestMapping("/identity/authentication")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthenticationRestController {
@@ -29,7 +29,7 @@ public class AuthenticationRestController {
 
     @NonNull CommandHandler<AuthenticationUserCommand, TokenPair> authenticationUserCommandHandler;
 
-    @PostMapping(value = "/authentication/signup", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/signup", produces = "application/json")
     public ResponseEntity<AuthenticationResponse> signup(@RequestBody SignupUserRequest signupUserRequest) {
         RegisterUserCommand registerUserCommand = new RegisterUserCommand(
                 signupUserRequest.getUsername(),
@@ -43,7 +43,7 @@ public class AuthenticationRestController {
         ));
     }
 
-    @PostMapping(value = "/authentication/signin", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/signin", produces = "application/json")
     public ResponseEntity<AuthenticationResponse> signin(@RequestBody SigninUserRequest signinUserRequest) {
         AuthenticationUserCommand signinUserCommand = new AuthenticationUserCommand(
                 signinUserRequest.getUsername(),

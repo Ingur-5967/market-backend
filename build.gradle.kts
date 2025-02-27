@@ -11,6 +11,13 @@ java {
     }
 }
 
+buildscript {
+    repositories { gradlePluginPortal() }
+    dependencies {
+        classpath("org.springframework.boot:org.springframework.boot.gradle.plugin:3.4.2")
+    }
+}
+
 allprojects {
     repositories {
         mavenCentral()
@@ -70,9 +77,4 @@ tasks.withType<Jar> {
     manifest {
         attributes["Main-Class"] = "ru.solomka.identity.spring.IdentityServiceApplication"
     }
-}
-
-tasks.withType<Test> {
-
-    useJUnitPlatform()
 }

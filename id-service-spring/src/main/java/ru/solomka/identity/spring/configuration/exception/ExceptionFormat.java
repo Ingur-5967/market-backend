@@ -11,8 +11,7 @@ import org.jetbrains.annotations.NotNull;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ExceptionFormat {
-    @JsonIgnore
-    int statusCode;
+    @JsonIgnore int statusCode;
     @NotNull String message;
     @JsonIgnore @NotNull Class<? extends Exception> exceptionClass;
 }

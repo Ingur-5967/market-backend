@@ -1,8 +1,6 @@
-package ru.solomka.identity.user.mapper;
+package ru.solomka.identity.user;
 
 import ru.solomka.identity.common.mapper.Mapper;
-import ru.solomka.identity.user.JpaUserEntity;
-import ru.solomka.identity.user.UserEntity;
 
 public class JpaUserEntityUserEntityMapper implements Mapper<UserEntity, JpaUserEntity> {
 

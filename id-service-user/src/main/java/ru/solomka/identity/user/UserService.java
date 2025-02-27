@@ -11,6 +11,7 @@ import ru.solomka.identity.common.EntityRepository;
 import ru.solomka.identity.common.EntityService;
 import ru.solomka.identity.common.exception.EntityNotFoundException;
 import ru.solomka.identity.principal.PrincipalEntity;
+import ru.solomka.identity.principal.PrincipalService;
 
 import java.time.Instant;
 import java.util.Optional;
@@ -24,8 +25,9 @@ public class UserService extends EntityService<UserEntity> {
     @NonNull EntityNotificationService<UserEntity> notificationService;
 
     public UserService(@NonNull UserRepository userRepository,
+                       @NonNull PrincipalService principalService,
                        @NonNull EntityNotificationService<UserEntity> notificationService) {
-        super(userRepository);
+        super(userRepository, principalService);
         this.userRepository = userRepository;
         this.notificationService = notificationService;
     }

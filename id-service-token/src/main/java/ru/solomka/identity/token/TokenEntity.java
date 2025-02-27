@@ -19,9 +19,9 @@ public class TokenEntity {
 
     @NonNull UUID userId;
 
-    @NonNull Instant expiredAt;
-
     @NonNull String token;
+
+    @NonNull Instant expiredAt;
 
     @NonNull TokenType tokenType;
 }
