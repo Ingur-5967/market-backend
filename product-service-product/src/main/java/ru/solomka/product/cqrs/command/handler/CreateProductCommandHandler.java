@@ -11,6 +11,8 @@ import ru.solomka.product.common.cqrs.CommandHandler;
 import ru.solomka.product.cqrs.command.CreateProductCommand;
 import ru.solomka.product.exception.ProductOperationException;
 
+import java.util.UUID;
+
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CreateProductCommandHandler implements CommandHandler<CreateProductCommand, ProductEntity> {
@@ -30,6 +32,7 @@ public class CreateProductCommandHandler implements CommandHandler<CreateProduct
             throw new ProductOperationException("The product description can be no more than 250 characters long");
 
         ProductEntity createdProduct = ProductEntity.builder()
+                .imageContainerId(UUID.randomUUID())
                 .name(commandEntity.getName())
                 .description(commandEntity.getDescription())
                 .price(commandEntity.getPrice())

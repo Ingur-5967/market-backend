@@ -18,7 +18,7 @@ listOf(
 
     "product-service-comment",
     "product-service-comment-spring-jpa-adapter",
-    "product-service-comment-spring-rest-adapter"
+    "product-service-comment-spring-rest-adapter",
 ).forEach {
     include(it)
 }

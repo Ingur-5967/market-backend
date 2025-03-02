@@ -36,6 +36,6 @@ public class CommentService extends EntityService<CommentEntity> {
     }
 
     public List<CommentEntity> findAllCommentsByOwnerId(@NotNull UUID ownerId) {
-        return commentRepository.findCommentsById(ownerId);
+        return commentRepository.findCommentsByOwnerId(ownerId);
     }
 }

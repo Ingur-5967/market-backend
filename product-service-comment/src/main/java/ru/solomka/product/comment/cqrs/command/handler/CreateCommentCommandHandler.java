@@ -20,16 +20,25 @@ public class CreateCommentCommandHandler implements CommandHandler<CreateComment
 
     @Override
     public CommentEntity handle(CreateCommentCommand createCommentCommand) {
-        if(commentService.findByCommentOwnerId(createCommentCommand.getUserId()).isPresent())
-            throw new CommentException(
-                    "User with id '%s' already have comment for product with id '%s'"
-                            .formatted(createCommentCommand.getUserId(), createCommentCommand.getProductId())
-            );
+
+        // add check for user exists (UserSnapshot)
 
         if(!productService.existsById(createCommentCommand.getProductId()))
             throw new CommentException("Cannot add comment to to the non-existent product");
 
+        commentService.findAllCommentsByOwnerId(createCommentCommand.getUserId())
+                .stream()
+                .filter(comment -> comment.getProductId().equals(createCommentCommand.getProductId()))
+                .findAny()
+                .ifPresent(comment -> {
+                    throw new CommentException(
+                            "User with id '%s' already have comment for product with id '%s'"
+                                    .formatted(createCommentCommand.getUserId(), createCommentCommand.getProductId())
+                    );
+                });
+
         CommentEntity comment = CommentEntity.builder()
+                .userId(createCommentCommand.getUserId())
                 .productId(createCommentCommand.getProductId())
                 .comment(createCommentCommand.getComment())
                 .rating(createCommentCommand.getRating())

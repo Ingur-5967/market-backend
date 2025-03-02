@@ -7,6 +7,7 @@ public class JpaProductEntityProductEntityMapper implements Mapper<ProductEntity
     public ProductEntity mapToDomain(JpaProductEntity infrastructureEntity) {
         return ProductEntity.builder()
                 .id(infrastructureEntity.getId())
+                .imageContainerId(infrastructureEntity.getImageContainerId())
                 .name(infrastructureEntity.getName())
                 .price(infrastructureEntity.getPrice())
                 .description(infrastructureEntity.getDescription())
@@ -19,6 +20,7 @@ public class JpaProductEntityProductEntityMapper implements Mapper<ProductEntity
     public JpaProductEntity mapToInfrastructure(ProductEntity domainEntity) {
         return JpaProductEntity.builder()
                 .id(domainEntity.getId())
+                .imageContainerId(domainEntity.getImageContainerId())
                 .name(domainEntity.getName())
                 .price(domainEntity.getPrice())
                 .description(domainEntity.getDescription())

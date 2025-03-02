@@ -31,7 +31,7 @@ public class JpaCommentEntityRepositoryAdapter extends BaseJpaEntityRepositoryAd
     }
 
     @Override
-    public List<CommentEntity> findCommentByOwnerId(UUID ownerId) {
+    public List<CommentEntity> findCommentsByOwnerId(UUID ownerId) {
         return commentRepository.findAllByUserId(ownerId).stream().map(mapper::mapToDomain).toList();
     }
 }

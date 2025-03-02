@@ -8,8 +8,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import ru.solomka.product.*;
 import ru.solomka.product.comment.*;
 import ru.solomka.product.comment.cqrs.command.handler.CreateCommentCommandHandler;
-import ru.solomka.product.comment.cqrs.query.handler.GetCommentByIdQueryHandler;
-import ru.solomka.product.comment.cqrs.query.handler.GetCommentByOwnerIdQueryHandler;
+import ru.solomka.product.comment.cqrs.query.handler.GetCommentsByIdQueryHandler;
+import ru.solomka.product.comment.cqrs.query.handler.GetCommentsByOwnerIdQueryHandler;
+import ru.solomka.product.comment.cqrs.query.handler.GetCommentsByProductIdQueryHandler;
 import ru.solomka.product.common.mapper.Mapper;
 
 @Configuration
@@ -32,13 +33,18 @@ public class CommentConfiguration {
     }
 
     @Bean
-    GetCommentByIdQueryHandler getCommentByIdQueryHandler(@NonNull CommentService commentService) {
-        return new GetCommentByIdQueryHandler(commentService);
+    GetCommentsByIdQueryHandler getCommentByIdQueryHandler(@NonNull CommentService commentService) {
+        return new GetCommentsByIdQueryHandler(commentService);
     }
 
     @Bean
-    GetCommentByOwnerIdQueryHandler getCommentByOwnerIdQueryHandler(@NonNull CommentService commentService) {
-        return new GetCommentByOwnerIdQueryHandler(commentService);
+    GetCommentsByProductIdQueryHandler getCommentsByProductIdQueryHandler(@NonNull CommentService commentService) {
+        return new GetCommentsByProductIdQueryHandler(commentService);
+    }
+
+    @Bean
+    GetCommentsByOwnerIdQueryHandler getCommentByOwnerIdQueryHandler(@NonNull CommentService commentService) {
+        return new GetCommentsByOwnerIdQueryHandler(commentService);
     }
 
     @Bean
