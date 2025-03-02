@@ -40,6 +40,7 @@ public class HttpSecurityConfiguration {
                 .cors(cors -> cors.configurationSource(corsWebFilter()))
                 .authorizeHttpRequests(registry -> registry
                         .requestMatchers("/identity/authentication/**").permitAll()
+                        .requestMatchers("/identity/users/validate/**").permitAll()
                         .requestMatchers("/identity/refresh").permitAll()
                         .anyRequest().authenticated()
                 ).exceptionHandling(configurer -> configurer

@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import ru.solomka.identity.common.EntityRepository;
 import ru.solomka.identity.common.mapper.Mapper;
+import ru.solomka.identity.principal.PrincipalService;
 import ru.solomka.identity.token.*;
 import ru.solomka.identity.token.JpaRefreshTokenEntityRefreshTokenEntityMapper;
 
@@ -25,8 +26,9 @@ public class RefreshTokenConfiguration {
     }
 
     @Bean
-    RefreshTokenService refreshTokenService(@NonNull EntityRepository<RefreshTokenEntity> userEntityRepository) {
-        return new RefreshTokenService(userEntityRepository);
+    RefreshTokenService refreshTokenService(@NonNull EntityRepository<RefreshTokenEntity> userEntityRepository,
+                                            @NonNull PrincipalService principalService) {
+        return new RefreshTokenService(userEntityRepository, principalService);
     }
 
     @Bean

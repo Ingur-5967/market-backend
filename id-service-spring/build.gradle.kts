@@ -7,7 +7,6 @@ dependencies {
     implementation(libs.springframework.spring.boot.kafka)
     implementation(libs.springframework.spring.boot.loadbalancer)
 
-
     implementation(libs.springframework.spring.boot.eureka.client)
 
     implementation(libs.nimbus.jose.jwt)
@@ -15,6 +14,7 @@ dependencies {
     runtimeOnly(libs.postgresql.postgresql)
 
     implementation(project(":id-service-common"))
+    implementation(project(":id-service-common-spring-jpa"))
 
     implementation(project(":id-service-principal"))
     implementation(project(":id-service-principal-spring-security-adapter"))

@@ -4,12 +4,14 @@ import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 import ru.solomka.identity.common.EntityRepository;
 import ru.solomka.identity.common.EntityService;
+import ru.solomka.identity.principal.PrincipalService;
 
 import java.time.Instant;
 
 public class RefreshTokenService extends EntityService<RefreshTokenEntity> {
-    public RefreshTokenService(@NonNull EntityRepository<RefreshTokenEntity> repository) {
-        super(repository);
+    public RefreshTokenService(@NonNull EntityRepository<RefreshTokenEntity> repository,
+                               @NotNull PrincipalService principalService) {
+        super(repository, principalService);
     }
 
     @Override
