@@ -1,18 +1,15 @@
-package ru.solomka.identity.common.http;
+package ru.solomka.identity.token;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 @Getter
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class RestResponse<T> {
+public class ExtractAndValidateAccessTokenCommand {
 
-    T data;
-
-    public static <T> RestResponse<T> from(T data) {
-        return new RestResponse<>(data);
-    }
+    @NonNull String token;
 }

@@ -2,6 +2,7 @@ rootProject.name = "identity-user-service"
 
 listOf(
     "id-service-access-token",
+    "id-service-access-token-spring-rest-adapter",
 
     "id-service-authentication",
     "id-service-authentication-spring-rest-adapter",
