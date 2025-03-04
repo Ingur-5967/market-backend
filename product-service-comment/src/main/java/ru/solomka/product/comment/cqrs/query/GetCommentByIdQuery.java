@@ -11,7 +11,7 @@ import java.util.UUID;
 @Getter
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class GetCommentsByIdQuery {
+public class GetCommentByIdQuery {
 
     @NonNull UUID id;
 }

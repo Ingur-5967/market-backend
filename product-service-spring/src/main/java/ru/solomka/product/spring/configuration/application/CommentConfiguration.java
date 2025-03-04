@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import ru.solomka.product.*;
 import ru.solomka.product.comment.*;
 import ru.solomka.product.comment.cqrs.command.handler.CreateCommentCommandHandler;
-import ru.solomka.product.comment.cqrs.query.handler.GetCommentsByIdQueryHandler;
+import ru.solomka.product.comment.cqrs.query.handler.GetCommentByIdQueryHandler;
 import ru.solomka.product.comment.cqrs.query.handler.GetCommentsByOwnerIdQueryHandler;
 import ru.solomka.product.comment.cqrs.query.handler.GetCommentsByProductIdQueryHandler;
 import ru.solomka.product.common.mapper.Mapper;
@@ -33,8 +33,8 @@ public class CommentConfiguration {
     }
 
     @Bean
-    GetCommentsByIdQueryHandler getCommentByIdQueryHandler(@NonNull CommentService commentService) {
-        return new GetCommentsByIdQueryHandler(commentService);
+    GetCommentByIdQueryHandler getCommentByIdQueryHandler(@NonNull CommentService commentService) {
+        return new GetCommentByIdQueryHandler(commentService);
     }
 
     @Bean

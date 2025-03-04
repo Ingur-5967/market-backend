@@ -8,6 +8,6 @@ import java.util.UUID;
 
 public interface CommentRepository extends EntityRepository<CommentEntity> {
     List<CommentEntity> findCommentsByProductId(UUID productId);
-    List<CommentEntity> findCommentsById(UUID id);
+    Optional<CommentEntity> findCommentById(UUID id);
     List<CommentEntity> findCommentsByOwnerId(UUID ownerId);
 }

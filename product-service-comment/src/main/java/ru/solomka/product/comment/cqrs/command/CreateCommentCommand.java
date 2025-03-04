@@ -12,8 +12,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CreateCommentCommand {
+
     @NonNull UUID userId;
+
     @NonNull UUID productId;
+
     @NonNull String comment;
+
     @NonNull Double rating;
 }

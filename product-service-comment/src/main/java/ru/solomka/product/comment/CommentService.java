@@ -8,6 +8,7 @@ import ru.solomka.product.common.EntityService;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -31,8 +32,8 @@ public class CommentService extends EntityService<CommentEntity> {
         return commentRepository.findCommentsByProductId(productId);
     }
 
-    public List<CommentEntity> findAllCommentsById(@NotNull UUID id) {
-        return commentRepository.findCommentsById(id);
+    public Optional<CommentEntity> findCommentById(@NotNull UUID id) {
+        return commentRepository.findCommentById(id);
     }
 
     public List<CommentEntity> findAllCommentsByOwnerId(@NotNull UUID ownerId) {

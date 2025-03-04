@@ -7,6 +7,7 @@ import ru.solomka.product.common.BaseJpaEntityRepositoryAdapter;
 import ru.solomka.product.common.mapper.Mapper;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -26,8 +27,8 @@ public class JpaCommentEntityRepositoryAdapter extends BaseJpaEntityRepositoryAd
     }
 
     @Override
-    public List<CommentEntity> findCommentsById(UUID productId) {
-        return commentRepository.findAllById(productId).stream().map(mapper::mapToDomain).toList();
+    public Optional<CommentEntity> findCommentById(UUID productId) {
+        return commentRepository.findCommentById(productId).map(mapper::mapToDomain);
     }
 
     @Override

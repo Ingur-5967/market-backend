@@ -10,6 +10,9 @@ jetbrains-annotations = '24.1.0'
 # JWT
 nimbusds-nimbus-jose-jwt = '10.0.1'
 
+# Minio client
+minio-client = '8.5.17'
+
 # Documentation
 springdoc-springdoc-openapi-starter = '2.6.0'
 
@@ -24,6 +27,9 @@ springframework-spring-boot-starter-cache = { module = 'org.springframework.boot
 springframework-spring-boot-starter = { module = 'org.springframework.boot:spring-boot-starter' }
 springframework-spring-boot-configuration-processor = { module = 'org.springframework.boot:spring-boot-configuration-processor' }
 springframework-spring-boot-kafka = { module = 'org.springframework.kafka:spring-kafka' }
+
+# Minio client
+minio-client = { module = 'io.minio:minio', version.ref = "minio-client"}
 
 # Java Web Token
 nimbus-jose-jwt = { module = 'com.nimbusds:nimbus-jose-jwt', version.ref = 'nimbusds-nimbus-jose-jwt' }

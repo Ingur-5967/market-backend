@@ -19,6 +19,11 @@ listOf(
     "product-service-comment",
     "product-service-comment-spring-jpa-adapter",
     "product-service-comment-spring-rest-adapter",
+
+    "product-service-card-view",
+    "product-service-card-view-spring-minio-adapter",
+
+    "product-service-minio"
 ).forEach {
     include(it)
 }
