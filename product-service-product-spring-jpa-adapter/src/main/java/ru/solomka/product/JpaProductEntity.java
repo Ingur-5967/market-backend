@@ -6,7 +6,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -22,9 +21,6 @@ public class JpaProductEntity {
     @Id
     @Column(name = "id", nullable = false, updatable = false)
     @NonNull UUID id;
-
-    @Column(name = "image_container_id", nullable = false, updatable = false)
-    @NonNull UUID imageContainerId;
 
     @Column(name = "name", nullable = false, updatable = false, length = 50)
     @NonNull String name;

@@ -21,7 +21,7 @@ public class MinioCardViewRepositoryAdapter implements CardViewRepository {
     @SneakyThrows
     @Override
     public CardViewEntity create(CardViewEntity entity) {
-        minioComponent.uploadFile(entity.getId().toString(), entity.getFile());
+        minioComponent.uploadFile(entity.getId().toString(), entity.getImageBytes());
         return entity;
     }
 
@@ -31,7 +31,7 @@ public class MinioCardViewRepositoryAdapter implements CardViewRepository {
         if (this.existsById(entity.getId()))
             throw new RuntimeException("File in bucket with name '%s' already exists".formatted(entity.getId().toString()));
 
-        minioComponent.uploadFile(entity.getId().toString(), entity.getFile());
+        minioComponent.uploadFile(entity.getId().toString(), entity.getImageBytes());
         return entity;
     }
 

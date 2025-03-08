@@ -18,8 +18,6 @@ public class ProductEntity implements Entity {
 
     UUID id;
 
-    @NonNull UUID imageContainerId;
-
     @NonNull String name;
 
     @NonNull String description;

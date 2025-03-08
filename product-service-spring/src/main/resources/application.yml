@@ -1,6 +1,12 @@
+service:
+  minio:
+    endpoint: ${MINIO_ENDPOINT}
+    root-user: ${MINIO_ROOT_USER}
+    root-password: ${MINIO_ROOT_PASSWORD}
+    bucket: ${MINIO_CLIENT_BUCKET_NAME}
+
 server:
   port: ${APPLICATION_PORT}
-
 
 spring:
   application:

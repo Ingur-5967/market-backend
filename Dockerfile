@@ -1,5 +1,6 @@
 FROM openjdk:21-jdk as builder
-ARG JAR_FILE=id-service-spring/build/libs/id-service-spring.jar
+ARG MAIN_MODULE=product-service-spring
+ARG JAR_FILE=${MAIN_MODULE}/build/libs/${MAIN_MODULE}.jar
 COPY ${JAR_FILE} application.jar
 RUN java -Djarmode=layertools -jar application.jar extract
 FROM openjdk:21-jdk

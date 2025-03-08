@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import ru.solomka.product.*;
+import ru.solomka.product.card.CardViewService;
 import ru.solomka.product.common.mapper.Mapper;
 import ru.solomka.product.cqrs.command.handler.CreateProductCommandHandler;
 import ru.solomka.product.cqrs.query.handler.GetProductByIdQueryHandler;
@@ -39,8 +40,9 @@ public class ProductConfiguration {
     }
 
     @Bean
-    CreateProductCommandHandler createProductCommandHandler(@NonNull ProductService service) {
-        return new CreateProductCommandHandler(service);
+    CreateProductCommandHandler createProductCommandHandler(@NonNull ProductService productService,
+                                                            @NonNull CardViewService cardViewService) {
+        return new CreateProductCommandHandler(productService, cardViewService);
     }
 
     @Bean

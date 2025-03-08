@@ -12,15 +12,14 @@ import lombok.experimental.FieldDefaults;
 import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLConnection;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Iterator;
-import java.util.Optional;
-import java.util.Spliterator;
-import java.util.Spliterators;
+import java.util.*;
 import java.util.stream.StreamSupport;
 
 @RequiredArgsConstructor
@@ -29,15 +28,25 @@ public class MinioComponentAdapter implements MinioComponent, MinioValidator{
 
     @NonNull MinioClient client;
 
-    @Qualifier("minio-bucket-name")
     @NonNull String bucketName;
 
     @SneakyThrows
     @Override
     public void uploadFile(String object, byte[] bytes) {
-        if(!this.existsBucket(bucketName)) this.createBucket(this.bucketName);
-        client.putObject(PutObjectArgs.builder().bucket(this.bucketName).object(object).stream(new ByteArrayInputStream(bytes), -1, 10485760).build()
-        );
+        InputStream is = new BufferedInputStream(new ByteArrayInputStream(bytes));
+        String mimeType = URLConnection.guessContentTypeFromStream(is);
+
+        List<String> validExtensionFile = List.of("jpeg", "jpg", "png");
+        if(!validExtensionFile.contains(mimeType.split("/")[1]))
+            throw new IllegalArgumentException("Invalid file mime type: %s".formatted(mimeType));
+
+        if(!this.existsBucket(this.bucketName)) this.createBucket(this.bucketName);
+
+        client.putObject(PutObjectArgs.builder()
+                .bucket(this.bucketName)
+                .object(object)
+                .contentType(mimeType)
+                .stream(new ByteArrayInputStream(bytes), -1, 10485760).build());
     }
 
     @SneakyThrows

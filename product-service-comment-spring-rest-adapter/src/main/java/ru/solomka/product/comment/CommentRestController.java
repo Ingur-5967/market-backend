@@ -7,12 +7,13 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.solomka.product.comment.cqrs.command.CreateCommentCommand;
-import ru.solomka.product.comment.cqrs.query.GetCommentsByIdQuery;
+import ru.solomka.product.comment.cqrs.query.GetCommentByIdQuery;
 import ru.solomka.product.comment.cqrs.query.GetCommentsByOwnerIdQuery;
 import ru.solomka.product.comment.cqrs.query.GetCommentsByProductIdQuery;
 import ru.solomka.product.comment.request.PublicationCommentRequest;
 import ru.solomka.product.common.cqrs.CommandHandler;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,7 +26,7 @@ public class CommentRestController {
     @NonNull CommandHandler<CreateCommentCommand, CommentEntity> createCommentCommandHandler;
 
     @NonNull CommandHandler<GetCommentsByProductIdQuery, List<CommentEntity>> getCommentsByProductIdQueryCommandHandler;
-    @NonNull CommandHandler<GetCommentsByIdQuery, List<CommentEntity>> getCommentsByIdQueryCommandHandler;
+    @NonNull CommandHandler<GetCommentByIdQuery, CommentEntity> getCommentByIdQueryCommandHandler;
     @NonNull CommandHandler<GetCommentsByOwnerIdQuery, List<CommentEntity>> getCommentsByOwnerIdQueryCommandHandler;
 
     @GetMapping(value = "/{filterType}/{searchBy}", produces = "application/json")
@@ -35,7 +36,7 @@ public class CommentRestController {
         switch (filterType) {
             case "by-product" -> comments = getCommentsByProductIdQueryCommandHandler.handle(new GetCommentsByProductIdQuery(id));
             case "by-owner" -> comments = getCommentsByOwnerIdQueryCommandHandler.handle(new GetCommentsByOwnerIdQuery(id));
-            case "by-id" -> comments = getCommentsByIdQueryCommandHandler.handle(new GetCommentsByIdQuery(id));
+            case "by-id" -> comments = Collections.singletonList(getCommentByIdQueryCommandHandler.handle(new GetCommentByIdQuery(id)));
             default -> throw new IllegalArgumentException("Invalid filter type");
         }
         return ResponseEntity.ok(comments);

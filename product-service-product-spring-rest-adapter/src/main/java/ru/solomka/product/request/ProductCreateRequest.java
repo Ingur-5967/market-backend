@@ -2,8 +2,7 @@ package ru.solomka.product.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @RequiredArgsConstructor
@@ -16,4 +15,6 @@ public class ProductCreateRequest {
     @NonNull String description;
 
     @NonNull Integer price;
+
+    @NonNull MultipartFile image;
 }

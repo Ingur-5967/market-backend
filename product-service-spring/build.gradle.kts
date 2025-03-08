@@ -6,6 +6,8 @@ dependencies {
     implementation(rootProject.libs.springframework.spring.boot.starter.cache)
     implementation(rootProject.libs.springframework.spring.boot.starter.validation)
 
+    implementation(rootProject.libs.minio.client)
+
     runtimeOnly(rootProject.libs.postgresql.postgresql)
 
     implementation(project(":product-service-common"))
@@ -21,4 +23,10 @@ dependencies {
     implementation(project(":product-service-comment"))
     implementation(project(":product-service-comment-spring-jpa-adapter"))
     implementation(project(":product-service-comment-spring-rest-adapter"))
+
+    implementation(project(":product-service-minio"))
+
+    implementation(project(":product-service-card-view"))
+    implementation(project(":product-service-card-view-spring-minio-adapter"))
+
 }

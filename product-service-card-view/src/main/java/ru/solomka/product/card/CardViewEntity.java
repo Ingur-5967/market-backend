@@ -4,8 +4,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import ru.solomka.product.common.Entity;
 
-import java.io.File;
-import java.io.InputStream;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -20,8 +18,7 @@ public class CardViewEntity implements Entity {
 
     @NonNull UUID id;
 
-    @NonNull
-    byte[] file;
+    byte[] imageBytes;
 
     @NonNull Instant createdAt;
 }

@@ -4,6 +4,7 @@ services:
   product-service:
     image: product-service-image:latest
     hostname: product-service
+    env_file: .env
     build:
       context: .
       dockerfile: Dockerfile
@@ -20,8 +21,7 @@ services:
       - postgres
       - zookeeper
       - kafka
-    env_file:
-      - .env
+      - minio
 
   postgres:
     image: postgres:14.1-alpine
@@ -64,6 +64,24 @@ services:
       ZOOKEEPER_SERVERS: zookeeper:2888:3888
     ports:
       - "2181:2181"
+    networks:
+      - gateway-server-service_eureka_network
+
+  minio:
+    restart: always
+    image: quay.io/minio/minio
+    command: server /data --console-address ":9090"
+    hostname: minio-server
+    env_file: .env
+    ports:
+      - "9000:9000"
+      - "9090:9090"
+      - "9091:9091"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    volumes:
+      - ~/minio/data:/data
     networks:
       - gateway-server-service_eureka_network
 
