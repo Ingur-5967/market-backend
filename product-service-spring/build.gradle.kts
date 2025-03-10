@@ -13,9 +13,6 @@ dependencies {
     implementation(project(":product-service-common"))
     implementation(project(":product-service-common-spring-jpa"))
 
-    implementation(project(":product-service-principal"))
-    implementation(project(":product-service-principal-spring-security-adapter"))
-
     implementation(project(":product-service-product"))
     implementation(project(":product-service-product-spring-jpa-adapter"))
     implementation(project(":product-service-product-spring-rest-adapter"))
@@ -28,5 +25,6 @@ dependencies {
 
     implementation(project(":product-service-card-view"))
     implementation(project(":product-service-card-view-spring-minio-adapter"))
+    implementation(project(":product-service-card-view-spring-rest-adapter"))
 
 }

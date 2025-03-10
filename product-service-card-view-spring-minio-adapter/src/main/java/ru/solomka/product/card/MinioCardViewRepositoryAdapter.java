@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import ru.solomka.product.minio.MinioComponent;
 import ru.solomka.product.minio.MinioValidator;
 
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,7 +22,7 @@ public class MinioCardViewRepositoryAdapter implements CardViewRepository {
     @SneakyThrows
     @Override
     public CardViewEntity create(CardViewEntity entity) {
-        minioComponent.uploadFile(entity.getId().toString(), entity.getImageBytes());
+        minioComponent.putObject(entity.getId().toString(), entity.getImageBytes());
         return entity;
     }
 
@@ -31,7 +32,7 @@ public class MinioCardViewRepositoryAdapter implements CardViewRepository {
         if (this.existsById(entity.getId()))
             throw new RuntimeException("File in bucket with name '%s' already exists".formatted(entity.getId().toString()));
 
-        minioComponent.uploadFile(entity.getId().toString(), entity.getImageBytes());
+        minioComponent.putObject(entity.getId().toString(), entity.getImageBytes());
         return entity;
     }
 
@@ -45,7 +46,12 @@ public class MinioCardViewRepositoryAdapter implements CardViewRepository {
     @SneakyThrows
     @Override
     public Optional<CardViewEntity> findById(UUID id) {
-        return minioComponent.downloadFile(id.toString());
+        if(!this.existsById(id))
+            throw new RuntimeException("File in bucket with name '%s' does not exist".formatted(id.toString()));
+
+        String data = minioComponent.getObject(id.toString()).orElseThrow(RuntimeException::new);
+
+        return Optional.of(CardViewEntity.builder().id(id).imageBytes(data.getBytes()).createdAt(Instant.now()).build());
     }
 
     @SneakyThrows

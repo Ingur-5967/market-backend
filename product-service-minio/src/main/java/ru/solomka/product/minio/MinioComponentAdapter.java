@@ -1,6 +1,7 @@
 package ru.solomka.product.minio;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.minio.*;
 import io.minio.errors.*;
 import io.minio.messages.Item;
@@ -9,8 +10,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
-import org.apache.commons.lang3.SerializationUtils;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -24,7 +23,7 @@ import java.util.stream.StreamSupport;
 
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class MinioComponentAdapter implements MinioComponent, MinioValidator{
+public class MinioComponentAdapter implements MinioComponent, MinioValidator {
 
     @NonNull MinioClient client;
 
@@ -32,7 +31,7 @@ public class MinioComponentAdapter implements MinioComponent, MinioValidator{
 
     @SneakyThrows
     @Override
-    public void uploadFile(String object, byte[] bytes) {
+    public void putObject(String object, byte[] bytes) {
         InputStream is = new BufferedInputStream(new ByteArrayInputStream(bytes));
         String mimeType = URLConnection.guessContentTypeFromStream(is);
 
@@ -51,9 +50,9 @@ public class MinioComponentAdapter implements MinioComponent, MinioValidator{
 
     @SneakyThrows
     @Override
-    public <F> Optional<F> downloadFile(String object) {
-        InputStream stream = client.getObject(GetObjectArgs.builder().bucket(bucketName).object(object).build());
-        return Optional.of(SerializationUtils.deserialize(stream.readAllBytes()));
+    public Optional<String> getObject(String object) {
+        InputStream stream = client.getObject(GetObjectArgs.builder().bucket(this.bucketName).object(object).build());
+        return Optional.of(new String(stream.readAllBytes()));
     }
 
     @SneakyThrows
