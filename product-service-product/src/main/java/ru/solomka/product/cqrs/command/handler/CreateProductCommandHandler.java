@@ -10,8 +10,8 @@ import ru.solomka.product.ProductService;
 import ru.solomka.product.card.CardViewEntity;
 import ru.solomka.product.card.CardViewService;
 import ru.solomka.product.common.cqrs.CommandHandler;
+import ru.solomka.product.common.exception.EntityAlreadyExistsException;
 import ru.solomka.product.cqrs.command.CreateProductCommand;
-import ru.solomka.product.exception.ProductOperationException;
 
 import java.time.Instant;
 
@@ -26,13 +26,13 @@ public class CreateProductCommandHandler implements CommandHandler<CreateProduct
     @Override
     public ProductEntity handle(CreateProductCommand commandEntity) {
         if(productService.findByName(commandEntity.getName()).isPresent())
-            throw new ProductOperationException("Product with name '%s' already exists".formatted(commandEntity.getName()));
+            throw new EntityAlreadyExistsException("Product with name '%s' already exists".formatted(commandEntity.getName()));
 
         if (commandEntity.getPrice() < 0)
-            throw new ProductOperationException("Invalid arguments for create product: Price must be greater that zero");
+            throw new IllegalArgumentException("Invalid arguments for create product: Price must be greater that zero");
 
         if(commandEntity.getDescription().length() > 250)
-            throw new ProductOperationException("The product description can be no more than 250 characters long");
+            throw new IllegalArgumentException("The product description can be no more than 250 characters long");
 
         ProductEntity createdProduct = ProductEntity.builder()
                 .name(commandEntity.getName())

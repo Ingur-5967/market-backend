@@ -6,6 +6,11 @@ dependencies {
     implementation(rootProject.libs.springframework.spring.boot.starter.cache)
     implementation(rootProject.libs.springframework.spring.boot.starter.validation)
 
+    implementation(rootProject.libs.springdoc.springdoc.openapi.starter.webmvc.ui)
+
+    implementation(rootProject.libs.springframework.spring.boot.cloud.eureka.client)
+    implementation(rootProject.libs.springframework.spring.boot.cloud.loadbalancer)
+
     implementation(rootProject.libs.minio.client)
 
     runtimeOnly(rootProject.libs.postgresql.postgresql)

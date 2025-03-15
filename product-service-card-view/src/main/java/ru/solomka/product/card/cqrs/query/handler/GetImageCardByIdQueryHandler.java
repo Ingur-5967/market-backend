@@ -12,6 +12,7 @@ import ru.solomka.product.card.cqrs.query.GetImageCardByIdQuery;
 import ru.solomka.product.common.cqrs.CommandHandler;
 import ru.solomka.product.common.exception.EntityNotFoundException;
 import ru.solomka.product.minio.MinioValidator;
+import ru.solomka.product.minio.exception.FileNotExistsInContainerException;
 
 import java.io.FileNotFoundException;
 
@@ -30,7 +31,7 @@ public class GetImageCardByIdQueryHandler implements CommandHandler<GetImageCard
             throw new EntityNotFoundException("Product with id '%s' not found".formatted(commandEntity.getId()));
 
         if(!minioValidator.existsFile(commandEntity.getId().toString()))
-            throw new FileNotFoundException("File with name '%s' not found in bucket".formatted(commandEntity.getId()));
+            throw new FileNotExistsInContainerException("File with name '%s' not found in bucket".formatted(commandEntity.getId()));
 
         CardViewEntity cardViewEntity = cardViewService.findById(commandEntity.getId()).orElseThrow(RuntimeException::new);
 

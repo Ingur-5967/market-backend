@@ -14,7 +14,7 @@ nimbusds-nimbus-jose-jwt = '10.0.1'
 minio-client = '8.5.17'
 
 # Documentation
-springdoc-springdoc-openapi-starter = '2.6.0'
+springdoc-springdoc-openapi-starter = '2.7.0'
 
 [libraries]
 # Spring Boot
@@ -24,6 +24,8 @@ springframework-spring-boot-starter-validation = { module = 'org.springframework
 springframework-spring-boot-starter-data-jpa = { module = 'org.springframework.boot:spring-boot-starter-data-jpa' }
 springframework-spring-boot-starter-web = { module = 'org.springframework.boot:spring-boot-starter-web' }
 springframework-spring-boot-starter-cache = { module = 'org.springframework.boot:spring-boot-starter-cache' }
+springframework-spring-boot-cloud-loadbalancer = { module = 'org.springframework.cloud:spring-cloud-starter-loadbalancer', version='3.1.4' }
+springframework-spring-boot-cloud-eureka-client = { module = 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client', version='3.1.4' }
 springframework-spring-boot-starter = { module = 'org.springframework.boot:spring-boot-starter' }
 springframework-spring-boot-configuration-processor = { module = 'org.springframework.boot:spring-boot-configuration-processor' }
 springframework-spring-boot-kafka = { module = 'org.springframework.kafka:spring-kafka' }

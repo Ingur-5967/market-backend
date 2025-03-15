@@ -20,6 +20,7 @@ services:
     depends_on:
       - postgres
       - minio
+      - swagger-ui
 
   postgres:
     image: postgres:14.1-alpine
@@ -30,11 +31,20 @@ services:
       POSTGRES_USER: ${DATASOURCE_USERNAME}
       POSTGRES_PASSWORD: ${DATASOURCE_PASSWORD}
     ports:
-      - '5432:5432'
+      - '5431:5431'
     networks:
       - gateway-server-service_eureka_network
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    ports:
+      - "8079:8079"
+    environment:
+      SWAGGER_JSON: /data/swagger.yml
+    volumes:
+      - ./data:/data
 
   minio:
     restart: always

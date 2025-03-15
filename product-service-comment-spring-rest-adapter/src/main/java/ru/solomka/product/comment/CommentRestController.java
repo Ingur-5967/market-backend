@@ -1,9 +1,17 @@
 package ru.solomka.product.comment;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.solomka.product.comment.cqrs.command.CreateCommentCommand;
@@ -17,6 +25,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+@Tag(name = "comment-endpoints", description = "Product comment management")
 @RestController
 @RequestMapping("/product/feedback")
 @RequiredArgsConstructor
@@ -29,8 +38,29 @@ public class CommentRestController {
     @NonNull CommandHandler<GetCommentByIdQuery, CommentEntity> getCommentByIdQueryCommandHandler;
     @NonNull CommandHandler<GetCommentsByOwnerIdQuery, List<CommentEntity>> getCommentsByOwnerIdQueryCommandHandler;
 
+    @Operation(
+            summary = "Get all comments by id",
+            method = "GET"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Returns list of comment entity ",
+                    content = { @Content(mediaType = "application/json") }
+            ),
+            @ApiResponse(
+                    responseCode = "404", description = "Exception: Product entity with current id not found",
+                    content = @Content
+            ),
+            @ApiResponse(
+                    responseCode = "500", description = "Exception: Invalid filter type",
+                    content = @Content
+            )
+    })
     @GetMapping(value = "/{filterType}/{searchBy}", produces = "application/json")
-    public ResponseEntity<List<CommentEntity>> getCommentsByProductId(@PathVariable("filterType") String filterType,
+    public ResponseEntity<List<CommentEntity>> getCommentsByProductId(@Parameter(name = "The type of object that is being filtered", required = true,
+                                                                                 examples = { @ExampleObject(name = "by-product", description = "Product ID search"),
+                                                                                              @ExampleObject(name = "by-owner", description = "Owner comment ID search"),
+                                                                                              @ExampleObject(value = "by-id", description = "Comment ID search")}) @PathVariable("filterType") String filterType,
                                                                       @PathVariable("searchBy") UUID id) {
         List<CommentEntity> comments;
         switch (filterType) {
@@ -42,8 +72,25 @@ public class CommentRestController {
         return ResponseEntity.ok(comments);
     }
 
+    @Operation(
+            summary = "Posting a comment for a product by id"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Returns comment entity",
+                    content = { @Content(mediaType = "application/json") }
+            ),
+            @ApiResponse(
+                    responseCode = "404", description = "Exception: Product entity with current id not found",
+                    content = @Content
+            ),
+            @ApiResponse(
+                    responseCode = "500", description = "Exception: A comment for this product from the specified user already exists ",
+                    content = @Content
+            )
+    })
     @PostMapping(value = "/publication", produces = "application/json")
-    public ResponseEntity<CommentEntity> publishCommentToProduct(@RequestBody PublicationCommentRequest publicationCommentRequest) {
+    public ResponseEntity<CommentEntity> publishCommentToProduct(@ParameterObject @RequestBody PublicationCommentRequest publicationCommentRequest) {
         CommentEntity comment = createCommentCommandHandler.handle(new CreateCommentCommand(
                 publicationCommentRequest.getUserId(),
                 publicationCommentRequest.getProductId(),

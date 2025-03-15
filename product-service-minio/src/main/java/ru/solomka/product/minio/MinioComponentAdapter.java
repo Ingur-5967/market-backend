@@ -35,6 +35,9 @@ public class MinioComponentAdapter implements MinioComponent, MinioValidator {
         InputStream is = new BufferedInputStream(new ByteArrayInputStream(bytes));
         String mimeType = URLConnection.guessContentTypeFromStream(is);
 
+        if(mimeType == null)
+            throw new RuntimeException("Mime type cannot be null");
+
         List<String> validExtensionFile = List.of("jpeg", "jpg", "png");
         if(!validExtensionFile.contains(mimeType.split("/")[1]))
             throw new IllegalArgumentException("Invalid file mime type: %s".formatted(mimeType));

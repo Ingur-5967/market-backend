@@ -10,9 +10,6 @@ listOf(
     "product-service-common",
     "product-service-common-spring-jpa",
 
-    "product-service-principal",
-    "product-service-principal-spring-security-adapter",
-
     "product-service-comment",
     "product-service-comment-spring-jpa-adapter",
     "product-service-comment-spring-rest-adapter",

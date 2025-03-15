@@ -11,6 +11,7 @@ import ru.solomka.product.card.cqrs.command.PutImageCardCommand;
 import ru.solomka.product.common.cqrs.CommandHandler;
 import ru.solomka.product.common.exception.EntityNotFoundException;
 import ru.solomka.product.minio.MinioValidator;
+import ru.solomka.product.minio.exception.FileAlreadyExistsInContainerException;
 
 import java.nio.file.FileAlreadyExistsException;
 
@@ -29,7 +30,7 @@ public class PutImageCardCommandHandler implements CommandHandler<PutImageCardCo
             throw new EntityNotFoundException("Product with id '%s' not found".formatted(commandEntity.getId()));
 
         if(minioValidator.existsFile(commandEntity.getId().toString()))
-            throw new FileAlreadyExistsException("Cannot update product view because it already exists");
+            throw new FileAlreadyExistsInContainerException("Cannot update product view because it already exists");
 
         CardViewEntity createdCardView = CardViewEntity.builder()
                 .id(commandEntity.getId())

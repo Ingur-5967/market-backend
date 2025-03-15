@@ -8,8 +8,9 @@ import ru.solomka.product.ProductService;
 import ru.solomka.product.comment.CommentEntity;
 import ru.solomka.product.comment.CommentService;
 import ru.solomka.product.comment.cqrs.command.CreateCommentCommand;
-import ru.solomka.product.comment.exception.CommentException;
+import ru.solomka.product.comment.exception.CommentAlreadyExistsException;
 import ru.solomka.product.common.cqrs.CommandHandler;
+import ru.solomka.product.common.exception.EntityNotFoundException;
 
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -20,18 +21,15 @@ public class CreateCommentCommandHandler implements CommandHandler<CreateComment
 
     @Override
     public CommentEntity handle(CreateCommentCommand createCommentCommand) {
-
-        // add check for user exists (UserSnapshot)
-
         if(!productService.existsById(createCommentCommand.getProductId()))
-            throw new CommentException("Cannot add comment to to the non-existent product");
+            throw new EntityNotFoundException("Cannot add comment to to the non-existent product");
 
         commentService.findAllCommentsByOwnerId(createCommentCommand.getUserId())
                 .stream()
                 .filter(comment -> comment.getProductId().equals(createCommentCommand.getProductId()))
                 .findAny()
                 .ifPresent(comment -> {
-                    throw new CommentException(
+                    throw new CommentAlreadyExistsException(
                             "User with id '%s' already have comment for product with id '%s'"
                                     .formatted(createCommentCommand.getUserId(), createCommentCommand.getProductId())
                     );
