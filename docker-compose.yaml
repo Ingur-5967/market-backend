@@ -3,6 +3,7 @@ version: '3'
 services:
   gateway-client-service:
     image: gateway-client-service-image:latest
+    env_file: .env
     build:
       context: .
       dockerfile: Dockerfile
@@ -10,8 +11,6 @@ services:
       - gateway-server-service_eureka_network
     ports:
       - '8080:8080'
-    env_file:
-      - .env
 
 networks:
   gateway-server-service_eureka_network:

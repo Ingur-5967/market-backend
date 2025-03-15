@@ -16,3 +16,17 @@ eureka:
     register-with-eureka: true
     service-url:
       defaultZone: http://gateway-server:8761/eureka/
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    configUrl: ${server.servlet.contextPath}/v3/api-docs/swagger-config
+    url: ${server.servlet.contextPath}/v3/api-docs
+    urls:
+      - name: identity-service
+        url: /identity/v3/api-docs
+      - name: product-service
+        url: /product/v3/api-docs
+      - name: order-service
+        url: /order/v3/api-docs

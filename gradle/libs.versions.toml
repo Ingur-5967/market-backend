@@ -6,6 +6,9 @@ spring-dependency-management = '1.1.7'
 projectlombok-lombok = '1.18.30'
 jetbrains-annotations = '24.1.0'
 
+# Documentation
+springdoc-springdoc-openapi-starter = '2.7.0'
+
 [plugins]
 springframework-boot = { id = 'org.springframework.boot', version.ref = 'springframework-boot' }
 spring-dependency-management = { id = 'io.spring.dependency-management', version.ref = 'spring-dependency-management' }
@@ -18,6 +21,10 @@ springframework-spring-boot-starter = { module = 'org.springframework.boot:sprin
 springframework-spring-boot-loadbalancer = { module = 'org.springframework.cloud:spring-cloud-starter-loadbalancer', version='3.1.4' }
 springframework-spring-boot-configuration-processor = { module = 'org.springframework.boot:spring-boot-configuration-processor' }
 springframework-spring-boot-eureka-client = { module = 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client', version='3.1.4' }
+
+# Documentation
+springdoc-springdoc-openapi-starter-webmvc-ui = { module = 'org.springdoc:springdoc-openapi-starter-webmvc-ui', version.ref = 'springdoc-springdoc-openapi-starter' }
+
 
 # Utility
 projectlombok-lombok = { module = 'org.projectlombok:lombok', version.ref = 'projectlombok-lombok' }

@@ -15,13 +15,13 @@ public class GatewayRouterConfiguration {
                         relocate.path("/identity/**")
                         .uri("http://identity-service:8081")
                 )
-                .route("profile-service", relocate ->
-                        relocate.path("/profile/**")
-                        .uri("http://localhost:8082")
-                )
                 .route("product-service", relocate ->
                         relocate.path("/product/**")
-                        .uri("lb://PRODUCT-SERVICE")
+                        .uri("http://product-service:8082")
+                )
+                .route("order-service", relocate ->
+                        relocate.path("/order/**")
+                        .uri("http://order-service:8083")
                 )
                 .build();
     }
