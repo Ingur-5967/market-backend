@@ -1,6 +1,6 @@
 FROM openjdk:21-jdk as builder
-ENV SPRING_MAIN_MODULE=gateway-server-service
-ARG JAR_FILE=build/libs/${SPRING_MAIN_MODULE}.jar
+ARG MAIN_MODULE=gw-service-spring
+ARG JAR_FILE=${MAIN_MODULE}/build/libs/${MAIN_MODULE}.jar
 COPY ${JAR_FILE} application.jar
 RUN java -Djarmode=layertools -jar application.jar extract
 FROM openjdk:21-jdk

@@ -1,10 +1,9 @@
 plugins {
     java
-    id("org.springframework.boot") version "3.4.3"
+    id("org.springframework.boot") version "3.4.2"
     id("io.spring.dependency-management") version "1.1.7"
+    id("com.google.devtools.ksp") version "1.8.10-1.0.9"
 }
-
-group = "ru.solomka.gateway.server.spring"
 
 java {
     toolchain {
@@ -16,25 +15,58 @@ allprojects {
     repositories {
         mavenCentral()
     }
-
 }
 
+configurations {
+    compileOnly {
+        extendsFrom(configurations.annotationProcessor.get())
+    }
+}
 
-extra["springCloudVersion"] = "2024.0.0"
-
-dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.cloud:spring-cloud-starter")
-    implementation("org.springframework.cloud:spring-cloud-starter-gateway-mvc")
-    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-server")
-    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
-    implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer")
+springBoot {
+    mainClass = "ru.solomka.gateway.server.spring.GatewayServerServiceApplication"
 }
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2024.0.0")
     }
+}
+
+subprojects {
+    apply(plugin = "java-library")
+    apply(plugin = "org.springframework.boot")
+    apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "com.google.devtools.ksp")
+
+    group = "ru.solomka"
+
+    springBoot {
+        mainClass = "ru.solomka.gateway.server.spring.GatewayServerServiceApplication"
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        annotationProcessor(rootProject.libs.projectlombok.lombok)
+
+        implementation(rootProject.libs.jetbrains.annotations)
+        implementation(rootProject.libs.projectlombok.lombok)
+    }
+}
+
+
+tasks.withType<Jar> {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes["Main-Class"] = "ru.solomka.gateway.server.spring.GatewayServerServiceApplication"
+    }
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 tasks.withType<Test> {
