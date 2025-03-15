@@ -22,7 +22,6 @@ dependencies {
     implementation(project(":id-service-user"))
     implementation(project(":id-service-user-spring-jpa-adapter"))
     implementation(project(":id-service-user-spring-rest-adapter"))
-    implementation(project(":id-service-user-spring-kafka-adapter"))
 
     implementation(project(":id-service-authentication"))
     implementation(project(":id-service-authentication-spring-rest-adapter"))

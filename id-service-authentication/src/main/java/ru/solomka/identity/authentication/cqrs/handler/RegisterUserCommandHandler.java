@@ -64,7 +64,10 @@ public class RegisterUserCommandHandler implements CommandHandler<RegisterUserCo
                 refreshTokenLifetime
         );
 
-        RefreshTokenEntity refreshTokenEntity = RefreshTokenEntity.builder().id(tokenPair.getRefreshToken().getId()).build();
+        RefreshTokenEntity refreshTokenEntity = RefreshTokenEntity.builder()
+                .id(tokenPair.getRefreshToken().getId())
+                .build();
+
         refreshTokenService.create(refreshTokenEntity);
 
         return tokenPair;

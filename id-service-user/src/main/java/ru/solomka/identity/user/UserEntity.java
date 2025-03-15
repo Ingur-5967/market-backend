@@ -24,5 +24,5 @@ public class UserEntity implements Entity {
 
     @NonNull String passwordHash;
 
-    @NonNull Instant createdAt;
+    Instant createdAt;
 }

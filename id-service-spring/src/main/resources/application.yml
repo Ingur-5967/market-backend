@@ -58,6 +58,7 @@ spring:
 eureka:
   instance:
     hostname: identity-service
+    prefer-ip-address: true
   client:
     fetch-registry: true
     register-with-eureka: true

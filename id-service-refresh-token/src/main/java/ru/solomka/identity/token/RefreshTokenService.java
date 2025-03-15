@@ -17,7 +17,6 @@ public class RefreshTokenService extends EntityService<RefreshTokenEntity> {
     @Override
     public @NotNull RefreshTokenEntity create(@NotNull RefreshTokenEntity entity) {
         entity.setCreatedAt(Instant.now());
-        System.out.println(entity);
         return repository.create(entity);
     }
 }

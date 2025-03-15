@@ -17,6 +17,7 @@ public class UserEntityUserMapper implements Mapper<UserEntity, User> {
                 .id(domainEntity.getId())
                 .username(domainEntity.getUsername())
                 .email(domainEntity.getEmail())
+
                 .build();
     }
 }

@@ -11,12 +11,12 @@ import java.util.UUID;
 @Setter
 @ToString
 @Builder
-@RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@AllArgsConstructor
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class RefreshTokenEntity implements Entity {
 
     @NonNull UUID id;
 
-    @NonNull Instant createdAt;
+    Instant createdAt;
 }
