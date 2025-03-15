@@ -4,11 +4,10 @@ services:
   gateway-server-service:
     image: gateway-server-service-image:latest
     hostname: gateway-server
+    env_file: .env
     build:
       context: .
       dockerfile: Dockerfile
-    env_file:
-      - .env
     networks:
       - eureka_network
     ports:
