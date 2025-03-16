@@ -32,20 +32,42 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CommentRestController {
 
-    @NonNull CommandHandler<CreateCommentCommand, CommentEntity> createCommentCommandHandler;
+    @NonNull
+    CommandHandler<CreateCommentCommand, CommentEntity> createCommentCommandHandler;
 
-    @NonNull CommandHandler<GetCommentsByProductIdQuery, List<CommentEntity>> getCommentsByProductIdQueryCommandHandler;
-    @NonNull CommandHandler<GetCommentByIdQuery, CommentEntity> getCommentByIdQueryCommandHandler;
-    @NonNull CommandHandler<GetCommentsByOwnerIdQuery, List<CommentEntity>> getCommentsByOwnerIdQueryCommandHandler;
+    @NonNull
+    CommandHandler<GetCommentsByProductIdQuery, List<CommentEntity>> getCommentsByProductIdQueryCommandHandler;
+    @NonNull
+    CommandHandler<GetCommentByIdQuery, CommentEntity> getCommentByIdQueryCommandHandler;
+    @NonNull
+    CommandHandler<GetCommentsByOwnerIdQuery, List<CommentEntity>> getCommentsByOwnerIdQueryCommandHandler;
 
     @Operation(
             summary = "Get all comments by id",
-            method = "GET"
+            method = "GET",
+            parameters = {
+                    @Parameter(
+                            name = "Field 'filterType'",
+                            examples = {
+                                    @ExampleObject(name = "by-product", description = "Product ID search"),
+                                    @ExampleObject(name = "by-owner", description = "Owner comment ID search"),
+                                    @ExampleObject(value = "by-id", description = "Comment ID search")
+                            }
+                    ),
+                    @Parameter(
+                            name = "Field 'id'",
+                            examples = {
+                                    @ExampleObject(name = "Product ID value", description = "f8a19d45-5784-4792-8678-64cb7fc0ece1"),
+                                    @ExampleObject(name = "Owner ID value", description = "94fc559f-5fa3-464a-8471-1a2c1dcdfc76"),
+                                    @ExampleObject(name = "Comment ID value", description = "1753a2ab-05d9-4249-b878-db1ec915c03f")
+                            }
+                    )
+            }
     )
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200", description = "Returns list of comment entity ",
-                    content = { @Content(mediaType = "application/json") }
+                    content = {@Content(mediaType = "application/json")}
             ),
             @ApiResponse(
                     responseCode = "404", description = "Exception: Product entity with current id not found",
@@ -57,10 +79,7 @@ public class CommentRestController {
             )
     })
     @GetMapping(value = "/{filterType}/{searchBy}", produces = "application/json")
-    public ResponseEntity<List<CommentEntity>> getCommentsByProductId(@Parameter(name = "The type of object that is being filtered", required = true,
-                                                                                 examples = { @ExampleObject(name = "by-product", description = "Product ID search"),
-                                                                                              @ExampleObject(name = "by-owner", description = "Owner comment ID search"),
-                                                                                              @ExampleObject(value = "by-id", description = "Comment ID search")}) @PathVariable("filterType") String filterType,
+    public ResponseEntity<List<CommentEntity>> getCommentsByProductId(@PathVariable("filterType") String filterType,
                                                                       @PathVariable("searchBy") UUID id) {
         List<CommentEntity> comments;
         switch (filterType) {
@@ -78,7 +97,7 @@ public class CommentRestController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200", description = "Returns comment entity",
-                    content = { @Content(mediaType = "application/json") }
+                    content = {@Content(mediaType = "application/json")}
             ),
             @ApiResponse(
                     responseCode = "404", description = "Exception: Product entity with current id not found",

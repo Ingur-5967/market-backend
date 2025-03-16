@@ -42,4 +42,4 @@ springdoc:
     enabled: true
   swagger-ui:
     enabled: true
-    path: /docs/index.html
+    path: /product/v3/api-docs/index.html

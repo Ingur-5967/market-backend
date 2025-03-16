@@ -1,7 +1,9 @@
 package ru.solomka.product;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,7 +36,33 @@ public class ProductRestController {
 
     @Operation(
             summary = "Get product entity by id",
-            method = "GET"
+            method = "GET",
+            parameters = {
+                    @Parameter(
+                            name = "Field 'filterType'",
+                            description = "The type to be searched for",
+                            examples = {
+                                    @ExampleObject(
+                                            name = "uuid",
+                                            description = "f8a19d45-5784-4792-8678-64cb7fc0ece1"
+                                    ),
+                                    @ExampleObject(
+                                            name = "name",
+                                            description = "Увлажняющий крем для рук"
+                                    )
+                            }
+                    ),
+                    @Parameter(
+                            name = "Field 'searchBy'",
+                            description = "The value to be searched for",
+                            examples = {
+                                    @ExampleObject(
+                                            name = "searchBy example value",
+                                            description = "f8a19d45-5784-4792-8678-64cb7fc0ece1"
+                                    )
+                            }
+                    )
+            }
     )
     @ApiResponses(value = {
             @ApiResponse(
@@ -51,12 +79,12 @@ public class ProductRestController {
             )
     })
     @GetMapping(value = "/search/{filterType}/{searchBy}", produces = "application/json")
-    public ResponseEntity<ProductEntity> getProductById(@PathVariable("filterType") String param,
-                                                        @PathVariable("searchBy") String value) {
+    public ResponseEntity<ProductEntity> getProductById(@PathVariable("filterType") String filterType,
+                                                        @PathVariable("searchBy") String searchBy) {
         ProductEntity entity;
-        switch (param) {
-            case "uuid" -> entity = productByIdQueryProductEntityCommandHandler.handle(new GetProductByIdQuery(UUID.fromString(value)));
-            case "name" -> entity = productByNameQueryProductEntityCommandHandler.handle(new GetProductByNameQuery(value));
+        switch (filterType) {
+            case "uuid" -> entity = productByIdQueryProductEntityCommandHandler.handle(new GetProductByIdQuery(UUID.fromString(searchBy)));
+            case "name" -> entity = productByNameQueryProductEntityCommandHandler.handle(new GetProductByNameQuery(searchBy));
             default -> throw new IllegalArgumentException("Invalid filter type");
         }
         return ResponseEntity.ok(entity);

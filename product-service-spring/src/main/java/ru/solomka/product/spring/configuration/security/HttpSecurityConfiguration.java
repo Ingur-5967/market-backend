@@ -37,7 +37,8 @@ public class HttpSecurityConfiguration {
                 .httpBasic(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsWebFilter()))
-                .authorizeHttpRequests(registry -> registry.anyRequest().permitAll()
+                .authorizeHttpRequests(registry -> registry.requestMatchers("/product/v3/api-docs/**").permitAll()
+                        .anyRequest().authenticated()
                 ).exceptionHandling(configurer -> configurer
                         .authenticationEntryPoint(authenticationEntryPoint)
                         .accessDeniedHandler(accessDeniedHandler)

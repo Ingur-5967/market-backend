@@ -3,6 +3,7 @@ package ru.solomka.product.card;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -34,7 +35,17 @@ public class CardViewRestController {
     @NonNull CommandHandler<GetImageCardByIdQuery, byte[]> getImageCardByIdQueryHandler;
 
     @Operation(
-            summary = "Download an image from the minio container in byte representation"
+            summary = "Download an image from the minio container in byte representation",
+            method = "GET",
+            parameters = {
+                    @Parameter(
+                            name = "Field 'id'",
+                            description = "The ID of the product you want to get a picture of the product from",
+                            examples = {
+                                    @ExampleObject(name = "id", description = "f8a19d45-5784-4792-8678-64cb7fc0ece1")
+                            }
+                    )
+            }
     )
     @ApiResponses(value = {
             @ApiResponse(
@@ -52,14 +63,27 @@ public class CardViewRestController {
     })
     @SneakyThrows
     @GetMapping(value = "/{productId}", produces = "application/json")
-    public ResponseEntity<byte[]> getCardFileSource(@Parameter(name = "Product id (UUID)", description = "The ID of the product you want to get a picture of the product from")
-                                                    @PathVariable("productId") UUID id) {
+    public ResponseEntity<byte[]> getCardFileSource(@PathVariable("productId") UUID id) {
         byte[] image = getImageCardByIdQueryHandler.handle(new GetImageCardByIdQuery(id));
         return ResponseEntity.ok(image);
     }
 
     @Operation(
-            summary = "Upload an image in the minio container"
+            summary = "Upload an image in the minio container",
+            method = "POST",
+            parameters = {
+                    @Parameter(
+                            name = "Field 'id'",
+                            description = "The ID of the product you want to upload a picture of the product to",
+                            examples = {
+                                    @ExampleObject(name = "id", description = "f8a19d45-5784-4792-8678-64cb7fc0ece1")
+                            }
+                    ),
+                    @Parameter(
+                            name = "Field 'file'",
+                            description = "The image file that you want to send to the container"
+                    )
+            }
     )
     @ApiResponses(value = {
             @ApiResponse(
@@ -77,7 +101,7 @@ public class CardViewRestController {
     })
     @SneakyThrows
     @PostMapping(value = "/{productId}", produces = "application/json")
-    public ResponseEntity<CardViewEntity> getCardFileSource(@Parameter(name = "Product id (UUID)", description = "The ID of the product you want to upload a picture of the product to") @PathVariable("productId") UUID id,
+    public ResponseEntity<CardViewEntity> getCardFileSource(@PathVariable("productId") UUID id,
                                                             @ParameterObject @RequestBody MultipartFile file) {
         CardViewEntity cardViewEntity = putImageCardCommandHandler.handle(new PutImageCardCommand(id, file.getBytes()));
         return ResponseEntity.ok(cardViewEntity);
