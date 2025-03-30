@@ -19,19 +19,11 @@ import ru.solomka.identity.user.UserService;
 public class AuthenticationConfiguration {
 
     @Bean
-    RegisterUserCommandHandler registerUserCommandHandler(@NonNull IdentityTokenProperties accessTokenProperties,
-                                                          @NonNull IdentityTokenProperties refreshTokenProperties,
-                                                          @NonNull PrincipalService principalService,
-                                                          @NonNull RefreshTokenService refreshTokenService,
-                                                          @NonNull TokenPairFactory tokenPairFactory,
+    RegisterUserCommandHandler registerUserCommandHandler(@NonNull PrincipalService principalService,
                                                           @NonNull UserService userService,
                                                           @NonNull EncoderDelegate encoderDelegate) {
         return new RegisterUserCommandHandler(
-                accessTokenProperties.getAccessToken().getLifetime(),
-                refreshTokenProperties.getRefreshToken().getLifetime(),
                 principalService,
-                refreshTokenService,
-                tokenPairFactory,
                 userService,
                 encoderDelegate
         );

@@ -16,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
 public class UserEntity implements Entity {
 
-    @NonNull UUID id;
+    UUID id;
 
     @NonNull String username;
 
@@ -24,5 +24,5 @@ public class UserEntity implements Entity {
 
     @NonNull String passwordHash;
 
-    @NonNull Instant createdAt;
+    Instant createdAt;
 }

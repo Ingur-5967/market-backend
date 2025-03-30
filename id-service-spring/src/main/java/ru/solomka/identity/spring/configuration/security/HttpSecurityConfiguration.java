@@ -39,9 +39,10 @@ public class HttpSecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsWebFilter()))
                 .authorizeHttpRequests(registry -> registry
-                        .requestMatchers("/identity/authentication/**").permitAll()
-                        .requestMatchers("/identity/users/validate").permitAll()
-                        .requestMatchers("/identity/tokens/**").permitAll()
+                        .requestMatchers(
+                                "/identity/authentication/**",
+                                "/identity/users/validate",
+                                "/identity/tokens/**").permitAll()
                         .anyRequest().authenticated()
                 ).exceptionHandling(configurer -> configurer
                         .authenticationEntryPoint(authenticationEntryPoint)

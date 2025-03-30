@@ -22,9 +22,10 @@ services:
 
   postgres:
     image: postgres:14.1-alpine
-    hostname: postgres
+    hostname: postgres-identity-service
     restart: always
     environment:
+      POSTGRES_URL: ${DATASOURCE_URL}
       POSTGRES_DB: ${DATASOURCE_DB}
       POSTGRES_USER: ${DATASOURCE_USERNAME}
       POSTGRES_PASSWORD: ${DATASOURCE_PASSWORD}

@@ -15,7 +15,7 @@ import ru.solomka.identity.common.cqrs.query.GetEntityByIdQuery;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/identity/users/validate")
+@RequestMapping("/identity/users")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserValidationRestController {

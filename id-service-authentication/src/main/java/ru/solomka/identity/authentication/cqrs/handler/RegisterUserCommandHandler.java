@@ -19,24 +19,16 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class RegisterUserCommandHandler implements CommandHandler<RegisterUserCommand, TokenPair> {
-
-    @NotNull Duration accessTokenLifetime;
-
-    @NotNull Duration refreshTokenLifetime;
+public class RegisterUserCommandHandler implements CommandHandler<RegisterUserCommand, UserEntity> {
 
     @NotNull PrincipalService principalService;
-
-    @NotNull RefreshTokenService refreshTokenService;
-
-    @NotNull TokenPairFactory tokenPairFactory;
 
     @NotNull UserService userService;
 
     @NotNull EncoderDelegate passwordEncoderDelegate;
 
     @Override
-    public @NotNull TokenPair handle(@NotNull RegisterUserCommand registerUserCommand) {
+    public @NotNull UserEntity handle(@NotNull RegisterUserCommand registerUserCommand) {
         String encodedPassword = passwordEncoderDelegate.encode(registerUserCommand.getPassword());
 
         UserEntity userEntity = UserEntity.builder()
@@ -56,20 +48,6 @@ public class RegisterUserCommandHandler implements CommandHandler<RegisterUserCo
 
         principalService.setPrincipal(principal);
 
-        userService.create(userEntity);
-
-        TokenPair tokenPair = tokenPairFactory.create(
-                principal,
-                accessTokenLifetime,
-                refreshTokenLifetime
-        );
-
-        RefreshTokenEntity refreshTokenEntity = RefreshTokenEntity.builder()
-                .id(tokenPair.getRefreshToken().getId())
-                .build();
-
-        refreshTokenService.create(refreshTokenEntity);
-
-        return tokenPair;
+        return userService.create(userEntity);
     }
 }

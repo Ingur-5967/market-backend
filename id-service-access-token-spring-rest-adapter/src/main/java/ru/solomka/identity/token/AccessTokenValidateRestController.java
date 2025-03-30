@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.solomka.identity.common.cqrs.CommandHandler;
+import ru.solomka.identity.token.request.AccessTokenValidateRequest;
 
 @RestController
 @RequestMapping("/identity/tokens")
@@ -20,8 +21,8 @@ public class AccessTokenValidateRestController {
     @NonNull CommandHandler<ExtractAndValidateAccessTokenCommand, TokenEntity> extractAndValidateAccessTokenCommandHandler;
 
     @PostMapping(value = "/validate", produces = "application/json")
-    public ResponseEntity<TokenEntity> validateToken(@RequestBody String token) {
-        TokenEntity tokenEntity = extractAndValidateAccessTokenCommandHandler.handle(new ExtractAndValidateAccessTokenCommand(token));
-        return ResponseEntity.ok(tokenEntity);
+    public ResponseEntity<Boolean> validateToken(@RequestBody AccessTokenValidateRequest token) {
+        TokenEntity tokenEntity = extractAndValidateAccessTokenCommandHandler.handle(new ExtractAndValidateAccessTokenCommand(token.getToken()));
+        return ResponseEntity.ok(tokenEntity != null);
     }
 }

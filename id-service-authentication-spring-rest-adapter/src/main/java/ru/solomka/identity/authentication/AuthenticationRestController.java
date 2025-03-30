@@ -15,8 +15,10 @@ import ru.solomka.identity.authentication.cqrs.RegisterUserCommand;
 import ru.solomka.identity.authentication.request.SigninUserRequest;
 import ru.solomka.identity.authentication.request.SignupUserRequest;
 import ru.solomka.identity.authentication.response.AuthenticationResponse;
+import ru.solomka.identity.authentication.response.RegistrationResponse;
 import ru.solomka.identity.common.cqrs.CommandHandler;
 import ru.solomka.identity.token.TokenPair;
+import ru.solomka.identity.user.UserEntity;
 
 @RestController
 @RequestMapping("/identity/authentication")
@@ -25,22 +27,22 @@ import ru.solomka.identity.token.TokenPair;
 public class AuthenticationRestController {
 
     @NonNull
-    CommandHandler<RegisterUserCommand, TokenPair> registerUserCommandHandler;
+    CommandHandler<RegisterUserCommand, UserEntity> registerUserCommandHandler;
 
     @NonNull CommandHandler<AuthenticationUserCommand, TokenPair> authenticationUserCommandHandler;
 
     @PostMapping(value = "/signup", produces = "application/json")
-    public ResponseEntity<AuthenticationResponse> signup(@RequestBody SignupUserRequest signupUserRequest) {
+    public ResponseEntity<RegistrationResponse> signup(@RequestBody SignupUserRequest signupUserRequest) {
         RegisterUserCommand registerUserCommand = new RegisterUserCommand(
                 signupUserRequest.getUsername(),
                 signupUserRequest.getPassword(),
                 signupUserRequest.getEmail()
         );
-        TokenPair tokenPair = registerUserCommandHandler.handle(registerUserCommand);
-        return ResponseEntity.ok(new AuthenticationResponse(
-                tokenPair.getAccessToken().getToken(),
-                tokenPair.getRefreshToken().getToken()
-        ));
+        UserEntity userEntity = registerUserCommandHandler.handle(registerUserCommand);
+        return ResponseEntity.ok(new RegistrationResponse(
+                userEntity.getId(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getCreatedAt()
+           )
+        );
     }
 
     @PostMapping(value = "/signin", produces = "application/json")

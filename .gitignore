@@ -17,12 +17,9 @@ bin/
 !src/test/**/bin/
 
 ### IntelliJ IDEA ###
-**/access-token
-**/refresh-token
 !ci-cd/**
 **/.kotlin
 **/.idea
-**/.env
 **/gradlew
 **/gradlew.bat
 **/gradle/wrapper/*

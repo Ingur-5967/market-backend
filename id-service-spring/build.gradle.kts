@@ -4,7 +4,6 @@ dependencies {
     implementation(libs.springframework.spring.boot.starter.data.jpa)
     implementation(libs.springframework.spring.boot.starter.security)
     implementation(libs.springframework.spring.boot.starter.web)
-    implementation(libs.springframework.spring.boot.kafka)
     implementation(libs.springframework.spring.boot.loadbalancer)
 
     implementation(libs.springframework.spring.boot.eureka.client)
@@ -29,6 +28,8 @@ dependencies {
 
     implementation(project(":id-service-token"))
     implementation(project(":id-service-access-token"))
+    implementation(project(":id-service-access-token-spring-rest-adapter"))
+
     implementation(project(":id-service-token-nimbusds-adapter"))
 
     implementation(project(":id-service-refresh-token"))
