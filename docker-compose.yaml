@@ -3,6 +3,7 @@ version: '3'
 services:
   gateway-client-service:
     image: gateway-client-service-image:latest
+    hostname: gateway
     env_file: .env
     build:
       context: .

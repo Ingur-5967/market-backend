@@ -1,10 +1,13 @@
 server:
   port: ${APPLICATION_PORT}
+  servlet:
+    context-path: /documentation
 
 logging:
   level:
     org.springframework.cloud.gateway: DEBUG
     org.springframework.http.server.reactive: DEBUG
+
 
 spring:
   application:
@@ -24,9 +27,5 @@ springdoc:
     configUrl: ${server.servlet.contextPath}/v3/api-docs/swagger-config
     url: ${server.servlet.contextPath}/v3/api-docs
     urls:
-      - name: identity-service
-        url: /identity/v3/api-docs
       - name: product-service
         url: /product/v3/api-docs
-      - name: order-service
-        url: /order/v3/api-docs
