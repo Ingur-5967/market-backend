@@ -9,10 +9,10 @@ services:
       context: .
       dockerfile: Dockerfile
     networks:
-      - gateway-server-service_eureka_network
+      - eureka_network
     ports:
       - '8080:8080'
 
 networks:
-  gateway-server-service_eureka_network:
+  eureka_network:
     external: true
