@@ -19,6 +19,18 @@ services:
       - eureka_network
     depends_on:
       - postgres
+      - swagger-ui
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    ports:
+      - "8078:8078"
+    environment:
+      SWAGGER_JSON: /data/swagger.yml
+    networks:
+      - eureka_network
+    volumes:
+      - ./data:/data
 
   postgres:
     image: postgres:14.1-alpine

@@ -1,5 +1,9 @@
 package ru.solomka.identity.token;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +24,20 @@ public class AccessTokenValidateRestController {
 
     @NonNull CommandHandler<ExtractAndValidateAccessTokenCommand, TokenEntity> extractAndValidateAccessTokenCommandHandler;
 
+    @Operation(
+            summary = "Validate access-token",
+            method = "POST"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Returns 'True' (Token is valid)",
+                    content = @Content(mediaType = "application/json")
+            ),
+            @ApiResponse(
+                    responseCode = "403", description = "Exception: Token is not valid (Expired, Structure and etc.)",
+                    content = @Content(mediaType = "application/json")
+            )
+    })
     @PostMapping(value = "/validate", produces = "application/json")
     public ResponseEntity<Boolean> validateToken(@RequestBody AccessTokenValidateRequest token) {
         TokenEntity tokenEntity = extractAndValidateAccessTokenCommandHandler.handle(new ExtractAndValidateAccessTokenCommand(token.getToken()));

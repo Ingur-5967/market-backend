@@ -10,6 +10,7 @@ import ru.solomka.identity.common.mapper.Mapper;
 import ru.solomka.identity.principal.PrincipalService;
 import ru.solomka.identity.user.*;
 import ru.solomka.identity.user.JpaUserEntityUserEntityMapper;
+import ru.solomka.identity.user.cqrs.GetCurrentUserSessionQueryHandler;
 import ru.solomka.identity.user.mapper.UserEntityUserMapper;
 
 @Configuration
@@ -43,5 +44,11 @@ public class UserConfiguration {
     @Bean
     GetEntityByIdQueryHandler<UserEntity> getUserByIdQueryHandler(@NonNull UserService userService) {
         return new GetEntityByIdQueryHandler<>(userService);
+    }
+
+    @Bean
+    GetCurrentUserSessionQueryHandler getCurrentUserSessionQueryHandler(@NonNull PrincipalService principalService,
+                                                                        @NonNull GetEntityByIdQueryHandler<UserEntity> getEntityByIdQueryHandler) {
+        return new GetCurrentUserSessionQueryHandler(principalService, getEntityByIdQueryHandler);
     }
 }

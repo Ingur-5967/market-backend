@@ -38,6 +38,13 @@ spring:
     properties:
       hibernate.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
 
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /id-service/v3/api-docs/index.html
+
 eureka:
   instance:
     hostname: identity-service

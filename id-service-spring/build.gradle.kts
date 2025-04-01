@@ -1,12 +1,17 @@
 dependencies {
 
-    implementation(libs.springframework.spring.boot.starter.actuator)
-    implementation(libs.springframework.spring.boot.starter.data.jpa)
-    implementation(libs.springframework.spring.boot.starter.security)
-    implementation(libs.springframework.spring.boot.starter.web)
+    implementation(rootProject.libs.springframework.spring.boot.starter.actuator)
+    implementation(rootProject.libs.springframework.spring.boot.starter.security)
+    implementation(rootProject.libs.springframework.spring.boot.starter.data.jpa)
+    implementation(rootProject.libs.springframework.spring.boot.starter.web)
+    implementation(rootProject.libs.springframework.spring.boot.starter.cache)
+    implementation(rootProject.libs.springframework.spring.boot.starter.validation)
+
     implementation(libs.springframework.spring.boot.loadbalancer)
 
     implementation(libs.springframework.spring.boot.eureka.client)
+
+    implementation(libs.springdoc.springdoc.openapi.starter.webmvc.ui)
 
     implementation(libs.nimbus.jose.jwt)
 

@@ -1,10 +1,13 @@
 package ru.solomka.identity.authentication;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +34,20 @@ public class AuthenticationRestController {
 
     @NonNull CommandHandler<AuthenticationUserCommand, TokenPair> authenticationUserCommandHandler;
 
+    @Operation(
+            summary = "Registration/Create user",
+            method = "POST"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Returns created user entity",
+                    content = @Content(mediaType = "application/json")
+            ),
+            @ApiResponse(
+                    responseCode = "409", description = "Exception: Operation failed (user already exists and etc.)",
+                    content = @Content(mediaType = "application/json")
+            )
+    })
     @PostMapping(value = "/signup", produces = "application/json")
     public ResponseEntity<RegistrationResponse> signup(@RequestBody SignupUserRequest signupUserRequest) {
         RegisterUserCommand registerUserCommand = new RegisterUserCommand(
@@ -45,6 +62,20 @@ public class AuthenticationRestController {
         );
     }
 
+    @Operation(
+            summary = "Registration/Create user",
+            method = "POST"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Returns access and refresh tokens",
+                    content = @Content(mediaType = "application/json")
+            ),
+            @ApiResponse(
+                    responseCode = "400", description = "Exception: Authentication failed (Invalid parameters: pass/login and etc.)",
+                    content = @Content(mediaType = "application/json")
+            )
+    })
     @PostMapping(value = "/signin", produces = "application/json")
     public ResponseEntity<AuthenticationResponse> signin(@RequestBody SigninUserRequest signinUserRequest) {
         AuthenticationUserCommand signinUserCommand = new AuthenticationUserCommand(

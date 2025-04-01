@@ -11,7 +11,7 @@ jetbrains-annotations = '24.1.0'
 nimbusds-nimbus-jose-jwt = '10.0.1'
 
 # Documentation
-springdoc-springdoc-openapi-starter = '2.6.0'
+springdoc-springdoc-openapi-starter = '2.7.0'
 
 [libraries]
 # Spring Boot
