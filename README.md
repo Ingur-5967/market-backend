@@ -5,9 +5,11 @@
 Необходимые компоненты: java-21, docker dekstop
 Docker: [https://www.docker.com/products/docker-desktop/]
 
-Перед началом запуска микросервисов необходимо запустить docker!
+- Запустите Docker Dekstop
+- Откройте команду строку от имени администратора и введите команду: docker network create -d bridge eureka_network
+- После этого можете переходить к запуску сервисов 
 
-Порядок важен, так как некоторые сервисы регистрируются в сети других
+Порядок важен запуска сервисов:
 
 1. gateway-server-service
 2. gateway-request-service
@@ -15,4 +17,4 @@ Docker: [https://www.docker.com/products/docker-desktop/]
 4. product-service
 5. order-service
 
-Перед запуском сервиса соберите каждый через Dockerfile (Подробнее процесс расписан в сервисах)
+Перед запуском сервиса соберите каждый через Dockerfile (Подробнее процесс расписан в сервисах. Каждая ветра - сервис)
