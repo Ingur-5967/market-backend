@@ -41,7 +41,7 @@ public class HttpSecurityConfiguration {
                 .authorizeHttpRequests(registry -> registry
                         .requestMatchers(
                                 "/identity/authentication/**",
-                                "/identity/users/validate",
+                                "/identity/users/validate/**",
                                 "/identity/tokens/**").permitAll()
                         .anyRequest().authenticated()
                 ).exceptionHandling(configurer -> configurer
