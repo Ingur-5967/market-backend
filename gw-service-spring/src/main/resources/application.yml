@@ -8,7 +8,6 @@ logging:
     org.springframework.cloud.gateway: DEBUG
     org.springframework.http.server.reactive: DEBUG
 
-
 spring:
   application:
     name: ${APPLICATION_PROJECT_NAME}
@@ -22,13 +21,3 @@ eureka:
     register-with-eureka: true
     service-url:
       defaultZone: http://gateway-server:8761/eureka/
-
-springdoc:
-  api-docs:
-    enabled: true
-  swagger-ui:
-    configUrl: ${server.servlet.contextPath}/v3/api-docs/swagger-config
-    url: ${server.servlet.contextPath}/v3/api-docs
-    urls:
-      - name: product-service
-        url: /product/v3/api-docs
