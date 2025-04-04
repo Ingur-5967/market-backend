@@ -37,27 +37,35 @@ public class OnceRequestFilter extends OncePerRequestFilter {
             return;
         }
 
+        System.out.println("Started filter");
+
         ResponseEntity<Boolean> tokenResponse = (ResponseEntity<Boolean>) requestServiceProvider.post(
                 "http://identity-service:8081/identity/tokens/validate",
                 Map.of("token", authorizationHeader)
         );
 
+        System.out.println("Token send");
+
         if(!tokenResponse.hasBody() || Boolean.TRUE.equals(tokenResponse.getBody())) {
             filterChain.doFilter(request, response);
+            System.out.println("Started IS NOT VALUID");
             return;
         }
+
+        System.out.println("Token VALID");
 
         Authentication authenticationToken = new OneTimeTokenAuthenticationToken(authorizationHeader);
         authenticationToken.setAuthenticated(true);
 
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
+        System.out.println("AUTHENTICATED");
         filterChain.doFilter(request, response);
     }
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
-        return path.contains("/product/v3/swagger-ui");
+        return path.contains("/v3/swagger-ui");
     }
 }

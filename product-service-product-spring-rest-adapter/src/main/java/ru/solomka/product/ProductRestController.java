@@ -15,12 +15,12 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.solomka.product.common.cqrs.CommandHandler;
-import ru.solomka.product.common.pagination.PaginationFilter;
 import ru.solomka.product.common.pagination.PaginationObject;
 import ru.solomka.product.cqrs.command.CreateProductCommand;
 import ru.solomka.product.cqrs.query.GetProductByIdQuery;
 import ru.solomka.product.cqrs.query.GetProductByNameQuery;
 import ru.solomka.product.cqrs.query.GetProductsByFilterQuery;
+import ru.solomka.product.request.GetProductsPaginationRequest;
 import ru.solomka.product.request.ProductCreateRequest;
 
 import java.util.UUID;
@@ -50,12 +50,12 @@ public class ProductRestController {
             )
     })
     @GetMapping(value = "/search/filter", produces = "application/json")
-    public ResponseEntity<PaginationObject<ProductEntity>> getProductByFilter(@RequestParam("offset") Integer offset,
-                                                                              @RequestParam("limit") Integer limit,
-                                                                              @RequestParam("filterType") PaginationFilter filterType,
-                                                                              @RequestParam("sortBy") String[] values) {
+    public ResponseEntity<PaginationObject<ProductEntity>> getProductByFilter(@RequestBody GetProductsPaginationRequest getProductsPaginationRequest) {
         PaginationObject<ProductEntity> entityPaginationObject = productsByCategoryQueryCommandHandler.handle(
-                new GetProductsByFilterQuery(offset, limit, filterType, values)
+                new GetProductsByFilterQuery(
+                        getProductsPaginationRequest.getOffset(), getProductsPaginationRequest.getLimit(),
+                        getProductsPaginationRequest.getFilterType(), getProductsPaginationRequest.getSortBy()
+                )
         );
         return ResponseEntity.ok(entityPaginationObject);
     }
