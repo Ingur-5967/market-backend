@@ -29,7 +29,6 @@ public class ExceptionAdviceConfiguration {
         return new ErrorResponseFormatProvider();
     }
 
-
     @Bean
     @Order(0)
     ExceptionFormatProvider fileNotExistsInContainerExceptionFormatProvider() {

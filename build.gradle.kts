@@ -22,7 +22,7 @@ repositories {
 }
 
 springBoot {
-    mainClass = "ru.solomka.identity.spring.IdentityServiceApplication"
+    mainClass = "ru.solomka.product.spring.ProductServiceApplication"
 }
 
 extra["springCloudVersion"] = "2024.0.0"
@@ -71,6 +71,5 @@ tasks.withType<Jar> {
 }
 
 tasks.withType<Test> {
-
     useJUnitPlatform()
 }

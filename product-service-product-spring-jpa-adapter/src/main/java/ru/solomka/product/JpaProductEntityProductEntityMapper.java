@@ -10,6 +10,7 @@ public class JpaProductEntityProductEntityMapper implements Mapper<ProductEntity
                 .name(infrastructureEntity.getName())
                 .price(infrastructureEntity.getPrice())
                 .description(infrastructureEntity.getDescription())
+                .category(infrastructureEntity.getCategory())
                 .rating(infrastructureEntity.getRating())
                 .createdAt(infrastructureEntity.getCreatedAt())
                 .build();
@@ -22,6 +23,7 @@ public class JpaProductEntityProductEntityMapper implements Mapper<ProductEntity
                 .name(domainEntity.getName())
                 .price(domainEntity.getPrice())
                 .description(domainEntity.getDescription())
+                .category(domainEntity.getCategory())
                 .rating(domainEntity.getRating())
                 .createdAt(domainEntity.getCreatedAt())
                 .build();

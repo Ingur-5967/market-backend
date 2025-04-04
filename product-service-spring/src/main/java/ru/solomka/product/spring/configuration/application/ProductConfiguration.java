@@ -12,6 +12,7 @@ import ru.solomka.product.cqrs.command.handler.CreateProductCommandHandler;
 import ru.solomka.product.cqrs.query.handler.GetProductByIdQueryHandler;
 import ru.solomka.product.cqrs.query.handler.GetProductByNameQueryHandler;
 import ru.solomka.product.JpaProductEntityProductEntityMapper;
+import ru.solomka.product.cqrs.query.handler.GetProductsByFilterQueryHandler;
 
 @Configuration
 @EntityScan(basePackageClasses = JpaProductEntity.class)
@@ -27,6 +28,11 @@ public class ProductConfiguration {
     @Bean
     ProductService productService(@NonNull ProductRepository productRepository) {
         return new ProductService(productRepository);
+    }
+
+    @Bean
+    GetProductsByFilterQueryHandler getProductsByFilterQueryHandler(@NonNull ProductService productService) {
+        return new GetProductsByFilterQueryHandler(productService);
     }
 
     @Bean

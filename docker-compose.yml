@@ -16,7 +16,7 @@ services:
     ports:
       - '8082:8082'
     networks:
-      - gateway-server-service_eureka_network
+      - eureka_network
     depends_on:
       - postgres
       - minio
@@ -24,16 +24,17 @@ services:
 
   postgres:
     image: postgres:14.1-alpine
-    hostname: postgres
+    hostname: postgres-product-service
     restart: always
     environment:
+      POSTGRES_URL: ${DATASOURCE_URL}
       POSTGRES_DB: ${DATASOURCE_DB}
       POSTGRES_USER: ${DATASOURCE_USERNAME}
       POSTGRES_PASSWORD: ${DATASOURCE_PASSWORD}
     ports:
       - '5431:5431'
     networks:
-      - gateway-server-service_eureka_network
+      - eureka_network
     volumes:
       - postgres_data:/var/lib/postgresql/data/
 
@@ -43,6 +44,8 @@ services:
       - "8079:8079"
     environment:
       SWAGGER_JSON: /data/swagger.yml
+    networks:
+      - eureka_network
     volumes:
       - ./data:/data
 
@@ -62,10 +65,10 @@ services:
     volumes:
       - ~/minio/data:/data
     networks:
-      - gateway-server-service_eureka_network
+      - eureka_network
 
 networks:
-  gateway-server-service_eureka_network:
+  eureka_network:
     external: true
 
 volumes:

@@ -14,6 +14,8 @@ public class ProductCreateRequest {
 
     @NonNull String description;
 
+    @NonNull String category;
+
     @NonNull Integer price;
 
     @NonNull MultipartFile image;

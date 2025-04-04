@@ -37,6 +37,7 @@ public class CreateProductCommandHandler implements CommandHandler<CreateProduct
         ProductEntity createdProduct = ProductEntity.builder()
                 .name(commandEntity.getName())
                 .description(commandEntity.getDescription())
+                .category(commandEntity.getCategory())
                 .price(commandEntity.getPrice())
                 .rating(0.0)
                 .build();

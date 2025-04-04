@@ -3,15 +3,19 @@ package ru.solomka.product.comment;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
-import ru.solomka.product.common.BaseJpaEntityRepositoryAdapter;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import ru.solomka.product.common.pagination.PaginationFilter;
+import ru.solomka.product.common.repository.PaginationJpaEntityRepositoryAdapter;
 import ru.solomka.product.common.mapper.Mapper;
+import ru.solomka.product.common.pagination.PaginationObject;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class JpaCommentEntityRepositoryAdapter extends BaseJpaEntityRepositoryAdapter<JpaCommentEntity, CommentEntity> implements CommentRepository {
+public class JpaCommentEntityRepositoryAdapter extends PaginationJpaEntityRepositoryAdapter<JpaCommentEntity, CommentEntity> implements CommentRepository {
 
     @NonNull JpaCommentRepository commentRepository;
 
@@ -34,5 +38,10 @@ public class JpaCommentEntityRepositoryAdapter extends BaseJpaEntityRepositoryAd
     @Override
     public List<CommentEntity> findCommentsByOwnerId(UUID ownerId) {
         return commentRepository.findAllByUserId(ownerId).stream().map(mapper::mapToDomain).toList();
+    }
+
+    @Override
+    public PaginationObject<CommentEntity> findAll(int offset, int limit, PaginationFilter filter, String... filteredBy) {
+        return super.findByFilter(offset, limit, filter, filteredBy);
     }
 }

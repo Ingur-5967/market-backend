@@ -1,9 +1,12 @@
-package ru.solomka.product.common;
+package ru.solomka.product.common.repository;
 
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import ru.solomka.product.common.BaseCrudRepository;
+import ru.solomka.product.common.Entity;
+import ru.solomka.product.common.EntityRepository;
 import ru.solomka.product.common.mapper.Mapper;
 
 import java.util.Optional;
@@ -11,9 +14,10 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PROTECTED, makeFinal = true)
-public abstract class BaseJpaEntityRepositoryAdapter<I, E extends Entity> implements EntityRepository<E>  {
+public abstract class BaseJpaEntityRepositoryAdapter<I, E extends Entity> implements EntityRepository<E> {
 
-    @NonNull BaseCrudRepository<I> repository;
+    @NonNull
+    BaseCrudRepository<I> repository;
     @NonNull Mapper<E, I> mapper;
 
     @Override

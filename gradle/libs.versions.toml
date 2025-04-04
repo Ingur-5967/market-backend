@@ -7,9 +7,6 @@ spring-dependency-management = '1.1.7'
 projectlombok-lombok = '1.18.30'
 jetbrains-annotations = '24.1.0'
 
-# JWT
-nimbusds-nimbus-jose-jwt = '10.0.1'
-
 # Minio client
 minio-client = '8.5.17'
 
@@ -28,13 +25,9 @@ springframework-spring-boot-cloud-loadbalancer = { module = 'org.springframework
 springframework-spring-boot-cloud-eureka-client = { module = 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client', version='3.1.4' }
 springframework-spring-boot-starter = { module = 'org.springframework.boot:spring-boot-starter' }
 springframework-spring-boot-configuration-processor = { module = 'org.springframework.boot:spring-boot-configuration-processor' }
-springframework-spring-boot-kafka = { module = 'org.springframework.kafka:spring-kafka' }
 
 # Minio client
 minio-client = { module = 'io.minio:minio', version.ref = "minio-client"}
-
-# Java Web Token
-nimbus-jose-jwt = { module = 'com.nimbusds:nimbus-jose-jwt', version.ref = 'nimbusds-nimbus-jose-jwt' }
 
 #Database
 postgresql-postgresql = { module = 'org.postgresql:postgresql' }

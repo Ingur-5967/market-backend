@@ -15,6 +15,8 @@ public class CreateProductCommand {
 
     @NonNull String description;
 
+    @NonNull String category;
+
     byte[] imageBytes;
 
     @NonNull Integer price;

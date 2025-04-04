@@ -22,6 +22,8 @@ public class ProductEntity implements Entity {
 
     @NonNull String description;
 
+    @NonNull String category;
+
     @NonNull Integer price;
 
     @NonNull Double rating;

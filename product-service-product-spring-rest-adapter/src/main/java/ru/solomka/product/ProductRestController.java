@@ -15,9 +15,12 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.solomka.product.common.cqrs.CommandHandler;
+import ru.solomka.product.common.pagination.PaginationFilter;
+import ru.solomka.product.common.pagination.PaginationObject;
 import ru.solomka.product.cqrs.command.CreateProductCommand;
 import ru.solomka.product.cqrs.query.GetProductByIdQuery;
 import ru.solomka.product.cqrs.query.GetProductByNameQuery;
+import ru.solomka.product.cqrs.query.GetProductsByFilterQuery;
 import ru.solomka.product.request.ProductCreateRequest;
 
 import java.util.UUID;
@@ -29,40 +32,37 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductRestController {
 
-    @NonNull CommandHandler<GetProductByIdQuery, ProductEntity> productByIdQueryProductEntityCommandHandler;
-    @NonNull CommandHandler<GetProductByNameQuery, ProductEntity> productByNameQueryProductEntityCommandHandler;
+    @NonNull CommandHandler<GetProductsByFilterQuery, PaginationObject<ProductEntity>> productsByCategoryQueryCommandHandler;
 
-    @NonNull CommandHandler<CreateProductCommand, ProductEntity> createProductCommandProductEntityCommandHandler;
+    @NonNull CommandHandler<GetProductByIdQuery, ProductEntity> productByIdQueryCommandHandler;
+    @NonNull CommandHandler<GetProductByNameQuery, ProductEntity> productByNameQueryCommandHandler;
+
+    @NonNull CommandHandler<CreateProductCommand, ProductEntity> createProductCommandHandler;
+
+    @Operation(
+            summary = "Get product by filter parameters",
+            method = "GET"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "Returns products entity",
+                    content = { @Content(mediaType = "application/json") }
+            )
+    })
+    @GetMapping(value = "/search/filter", produces = "application/json")
+    public ResponseEntity<PaginationObject<ProductEntity>> getProductByFilter(@RequestParam("offset") Integer offset,
+                                                                              @RequestParam("limit") Integer limit,
+                                                                              @RequestParam("filterType") PaginationFilter filterType,
+                                                                              @RequestParam("sortBy") String[] values) {
+        PaginationObject<ProductEntity> entityPaginationObject = productsByCategoryQueryCommandHandler.handle(
+                new GetProductsByFilterQuery(offset, limit, filterType, values)
+        );
+        return ResponseEntity.ok(entityPaginationObject);
+    }
 
     @Operation(
             summary = "Get product entity by id",
-            method = "GET",
-            parameters = {
-                    @Parameter(
-                            name = "Field 'filterType'",
-                            description = "The type to be searched for",
-                            examples = {
-                                    @ExampleObject(
-                                            name = "uuid",
-                                            description = "f8a19d45-5784-4792-8678-64cb7fc0ece1"
-                                    ),
-                                    @ExampleObject(
-                                            name = "name",
-                                            description = "Увлажняющий крем для рук"
-                                    )
-                            }
-                    ),
-                    @Parameter(
-                            name = "Field 'searchBy'",
-                            description = "The value to be searched for",
-                            examples = {
-                                    @ExampleObject(
-                                            name = "searchBy example value",
-                                            description = "f8a19d45-5784-4792-8678-64cb7fc0ece1"
-                                    )
-                            }
-                    )
-            }
+            method = "GET"
     )
     @ApiResponses(value = {
             @ApiResponse(
@@ -78,13 +78,33 @@ public class ProductRestController {
                     content = @Content
             )
     })
-    @GetMapping(value = "/search/{filterType}/{searchBy}", produces = "application/json")
-    public ResponseEntity<ProductEntity> getProductById(@PathVariable("filterType") String filterType,
-                                                        @PathVariable("searchBy") String searchBy) {
+    @GetMapping(value = "/search", produces = "application/json")
+    public ResponseEntity<ProductEntity> getProductByParam(
+                                                        @Parameter(
+                                                                name = "Field 'category'",
+                                                                description = "The type to be searched for",
+                                                                required = true,
+                                                                examples = {
+                                                                        @ExampleObject(name = "By UUID field", value = "uuid"),
+                                                                        @ExampleObject(name = "By Name field", value = "name")
+                                                                }
+                                                        )
+                                                        @RequestParam("by") String by,
+
+                                                        @Parameter(
+                                                                name = "Field 'value'",
+                                                                description = "The value to be searched for",
+                                                                required = true,
+                                                                examples = {
+                                                                        @ExampleObject(name = "uuid value", value = "f8a19d45-5784-4792-8678-64cb7fc0ece1"),
+                                                                        @ExampleObject(name = "name value", value = "Увлажняющий крем для рук"),
+                                                                }
+                                                        )
+                                                        @RequestParam("value") String value) {
         ProductEntity entity;
-        switch (filterType) {
-            case "uuid" -> entity = productByIdQueryProductEntityCommandHandler.handle(new GetProductByIdQuery(UUID.fromString(searchBy)));
-            case "name" -> entity = productByNameQueryProductEntityCommandHandler.handle(new GetProductByNameQuery(searchBy));
+        switch (by) {
+            case "uuid" -> entity = productByIdQueryCommandHandler.handle(new GetProductByIdQuery(UUID.fromString(value)));
+            case "name" -> entity = productByNameQueryCommandHandler.handle(new GetProductByNameQuery(value));
             default -> throw new IllegalArgumentException("Invalid filter type");
         }
         return ResponseEntity.ok(entity);
@@ -111,9 +131,10 @@ public class ProductRestController {
     @SneakyThrows
     @PostMapping(value = "/create-product", produces = "application/json")
     public ResponseEntity<ProductEntity> createProduct(ProductCreateRequest productCreateRequest) {
-        ProductEntity productEntity = createProductCommandProductEntityCommandHandler.handle(new CreateProductCommand(
+        ProductEntity productEntity = createProductCommandHandler.handle(new CreateProductCommand(
                 productCreateRequest.getName(),
                 productCreateRequest.getDescription(),
+                productCreateRequest.getCategory(),
                 productCreateRequest.getImage().getBytes(),
                 productCreateRequest.getPrice()
         ));

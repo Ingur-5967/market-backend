@@ -28,6 +28,9 @@ public class JpaProductEntity {
     @Column(name = "description", nullable = false, updatable = false, length = 250)
     @NonNull String description;
 
+    @Column(name = "category", nullable = false, updatable = false)
+    @NonNull String category;
+
     @Column(name = "price", nullable = false)
     @NonNull Integer price;
 
