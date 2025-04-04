@@ -13,9 +13,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import ru.solomka.product.spring.configuration.security.filter.OnceRequestFilter;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -28,7 +30,8 @@ public class HttpSecurityConfiguration {
     @Bean
     SecurityFilterChain securityFilterChain(@NotNull HttpSecurity http,
                                             @NotNull AuthenticationEntryPoint authenticationEntryPoint,
-                                            @NotNull AccessDeniedHandler accessDeniedHandler) throws Exception {
+                                            @NotNull AccessDeniedHandler accessDeniedHandler,
+                                            @NotNull OnceRequestFilter requestFilter) throws Exception {
         return http
                 .sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -41,7 +44,9 @@ public class HttpSecurityConfiguration {
                         .anyRequest().authenticated()
                 ).exceptionHandling(configurer -> configurer
                         .authenticationEntryPoint(authenticationEntryPoint)
-                        .accessDeniedHandler(accessDeniedHandler)).build();
+                        .accessDeniedHandler(accessDeniedHandler))
+                .addFilterBefore(requestFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 
     @Bean
