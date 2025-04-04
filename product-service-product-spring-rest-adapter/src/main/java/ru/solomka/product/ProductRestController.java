@@ -27,7 +27,7 @@ import java.util.UUID;
 
 @Tag(name = "product-endpoints", description = "Product entity management")
 @RestController
-@RequestMapping("/products/catalog")
+@RequestMapping("/product/catalog")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductRestController {

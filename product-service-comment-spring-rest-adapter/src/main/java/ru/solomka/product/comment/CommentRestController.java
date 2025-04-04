@@ -49,8 +49,8 @@ public class CommentRestController {
                     @Parameter(
                             name = "Field 'filterType'",
                             examples = {
-                                    @ExampleObject(name = "by-product", description = "Product ID search"),
-                                    @ExampleObject(name = "by-owner", description = "Owner comment ID search"),
+                                    @ExampleObject(value = "by-product", description = "Product ID search"),
+                                    @ExampleObject(value = "by-owner", description = "Owner comment ID search"),
                                     @ExampleObject(value = "by-id", description = "Comment ID search")
                             }
                     ),
