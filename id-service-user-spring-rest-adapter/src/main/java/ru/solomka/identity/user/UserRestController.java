@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.solomka.identity.common.cqrs.CommandHandler;
 import ru.solomka.identity.common.cqrs.query.GetEntityByIdQuery;
 import ru.solomka.identity.common.mapper.Mapper;
+import ru.solomka.identity.user.entity.User;
 
 import java.util.UUID;
 

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.solomka.identity.common.cqrs.CommandHandler;
 import ru.solomka.identity.common.cqrs.query.GetEntityByIdQuery;
+import ru.solomka.identity.user.response.UserValidationResponse;
 
 import java.util.UUID;
 
@@ -23,9 +24,9 @@ public class UserValidationRestController {
     @NonNull CommandHandler<GetEntityByIdQuery, UserEntity> getEntityByIdQueryCommandHandler;
 
     @PostMapping(value = "/validate/{userId}", produces = "application/json")
-    public ResponseEntity<Boolean> existsUser(@PathVariable("userId") UUID userId) {
+    public ResponseEntity<UserValidationResponse> existsUser(@PathVariable("userId") UUID userId) {
         GetEntityByIdQuery getUserByIdQuery = new GetEntityByIdQuery(userId);
         UserEntity userEntity = getEntityByIdQueryCommandHandler.handle(getUserByIdQuery);
-        return ResponseEntity.ok(userEntity != null);
+        return ResponseEntity.ok(new UserValidationResponse(userEntity != null));
     }
 }

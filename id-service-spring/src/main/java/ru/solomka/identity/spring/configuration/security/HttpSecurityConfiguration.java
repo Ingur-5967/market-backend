@@ -43,8 +43,6 @@ public class HttpSecurityConfiguration {
                                 "/identity/authentication/**",
                                 "/identity/users/validate/**",
                                 "/identity/tokens/**",
-
-                                "/id-service/v3/api-docs/**",
                                 "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated()
                 ).exceptionHandling(configurer -> configurer

@@ -10,6 +10,7 @@ listOf(
 
     "id-service-common",
     "id-service-common-spring-jpa",
+    "id-service-common-spring-web",
 
     "id-service-principal",
     "id-service-principal-spring-security-adapter",

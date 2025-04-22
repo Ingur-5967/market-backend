@@ -1,4 +1,4 @@
-package ru.solomka.identity.user;
+package ru.solomka.identity.user.entity;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

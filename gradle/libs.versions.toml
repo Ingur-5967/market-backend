@@ -31,6 +31,7 @@ nimbus-jose-jwt = { module = 'com.nimbusds:nimbus-jose-jwt', version.ref = 'nimb
 
 #Database
 postgresql-postgresql = { module = 'org.postgresql:postgresql' }
+flywaydb-flyway-core = { module = 'org.flywaydb:flyway-core' }
 
 # Utility
 projectlombok-lombok = { module = 'org.projectlombok:lombok', version.ref = 'projectlombok-lombok' }
