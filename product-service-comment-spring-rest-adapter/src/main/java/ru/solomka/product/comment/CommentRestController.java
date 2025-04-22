@@ -32,15 +32,11 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CommentRestController {
 
-    @NonNull
-    CommandHandler<CreateCommentCommand, CommentEntity> createCommentCommandHandler;
+    @NonNull CommandHandler<CreateCommentCommand, CommentEntity> createCommentCommandHandler;
 
-    @NonNull
-    CommandHandler<GetCommentsByProductIdQuery, List<CommentEntity>> getCommentsByProductIdQueryCommandHandler;
-    @NonNull
-    CommandHandler<GetCommentByIdQuery, CommentEntity> getCommentByIdQueryCommandHandler;
-    @NonNull
-    CommandHandler<GetCommentsByOwnerIdQuery, List<CommentEntity>> getCommentsByOwnerIdQueryCommandHandler;
+    @NonNull CommandHandler<GetCommentsByProductIdQuery, List<CommentEntity>> getCommentsByProductIdQueryCommandHandler;
+    @NonNull CommandHandler<GetCommentByIdQuery, CommentEntity> getCommentByIdQueryCommandHandler;
+    @NonNull CommandHandler<GetCommentsByOwnerIdQuery, List<CommentEntity>> getCommentsByOwnerIdQueryCommandHandler;
 
     @Operation(
             summary = "Get all comments by id",

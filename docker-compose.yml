@@ -6,7 +6,6 @@ services:
     hostname: product-service
     env_file: .env
     build:
-      context: .
       dockerfile: Dockerfile
     environment:
       - spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect

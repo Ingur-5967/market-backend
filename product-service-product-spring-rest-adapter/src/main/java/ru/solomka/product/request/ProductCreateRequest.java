@@ -6,7 +6,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @RequiredArgsConstructor
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductCreateRequest {
 

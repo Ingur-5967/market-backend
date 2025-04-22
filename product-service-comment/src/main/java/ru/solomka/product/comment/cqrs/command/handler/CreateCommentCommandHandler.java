@@ -10,7 +10,6 @@ import ru.solomka.product.comment.CommentEntity;
 import ru.solomka.product.comment.CommentService;
 import ru.solomka.product.comment.cqrs.command.CreateCommentCommand;
 import ru.solomka.product.comment.exception.CommentAlreadyExistsException;
-import ru.solomka.product.common.RestRequestServiceProvider;
 import ru.solomka.product.common.cqrs.CommandHandler;
 import ru.solomka.product.common.exception.EntityNotFoundException;
 

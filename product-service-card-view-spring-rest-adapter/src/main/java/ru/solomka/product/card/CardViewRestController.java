@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.solomka.product.card.cqrs.command.PutImageCardCommand;
 import ru.solomka.product.card.cqrs.query.GetImageCardByIdQuery;
+import ru.solomka.product.card.response.CardViewResponse;
 import ru.solomka.product.common.cqrs.CommandHandler;
 
 import java.util.UUID;
@@ -63,9 +64,9 @@ public class CardViewRestController {
     })
     @SneakyThrows
     @GetMapping(value = "/{productId}", produces = "application/json")
-    public ResponseEntity<byte[]> getCardFileSource(@PathVariable("productId") UUID id) {
+    public ResponseEntity<CardViewResponse> getCardFileSource(@PathVariable("productId") UUID id) {
         byte[] image = getImageCardByIdQueryHandler.handle(new GetImageCardByIdQuery(id));
-        return ResponseEntity.ok(image);
+        return ResponseEntity.ok(new CardViewResponse(image));
     }
 
     @Operation(

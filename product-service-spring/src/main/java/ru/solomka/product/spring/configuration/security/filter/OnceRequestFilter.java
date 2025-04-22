@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.ott.OneTimeTokenAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,8 +16,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ru.solomka.product.common.RestRequestServiceProvider;
+import ru.solomka.product.common.RestResponseExtractor;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Component
@@ -37,29 +40,22 @@ public class OnceRequestFilter extends OncePerRequestFilter {
             return;
         }
 
-        System.out.println("Started filter");
-
-        ResponseEntity<Boolean> tokenResponse = (ResponseEntity<Boolean>) requestServiceProvider.post(
+        ResponseEntity<TokenFilterOperation> tokenResponse = requestServiceProvider.postWithBodyParam(
                 "http://identity-service:8081/identity/tokens/validate",
+                TokenFilterOperation.class,
                 Map.of("token", authorizationHeader)
         );
 
-        System.out.println("Token send");
-
-        if(!tokenResponse.hasBody() || Boolean.TRUE.equals(tokenResponse.getBody())) {
+        if (!tokenResponse.hasBody() || tokenResponse.getStatusCode() != HttpStatusCode.valueOf(200)) {
             filterChain.doFilter(request, response);
-            System.out.println("Started IS NOT VALUID");
             return;
         }
-
-        System.out.println("Token VALID");
 
         Authentication authenticationToken = new OneTimeTokenAuthenticationToken(authorizationHeader);
         authenticationToken.setAuthenticated(true);
 
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-        System.out.println("AUTHENTICATED");
         filterChain.doFilter(request, response);
     }
 

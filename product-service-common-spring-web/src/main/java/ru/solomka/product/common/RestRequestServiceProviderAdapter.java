@@ -8,47 +8,54 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
-import java.util.Objects;
 
 @Getter
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class RestRequestServiceProviderAdapter implements RestRequestServiceProvider {
 
-    @NonNull
-    RestTemplate restTemplate;
+    @NonNull RestTemplate restTemplate;
 
     @Override
-    public <A> ResponseEntity<?> get(String uri, Map<String, A> body) {
-        return this.send(HttpMethod.GET, uri, body);
+    public <A, T> ResponseEntity<T> getWithBodyParam(String uri, Class<T> returnedType, Map<String, A> body) {
+        return this.send(HttpMethod.GET, uri, returnedType, body, null);
     }
 
     @Override
-    public ResponseEntity<?> emptyGet(String uri) {
-        return this.send(HttpMethod.GET, uri, null);
+    public <T> ResponseEntity<T> getWithQueryParam(String uri, Class<T> returnedType, RestUriBuilder header) {
+        return this.send(HttpMethod.GET, uri, returnedType, null, header);
     }
 
     @Override
-    public <A> ResponseEntity<?> post(String uri, Map<String, A> body) {
-        return this.send(HttpMethod.POST, uri, body);
+    public <T> ResponseEntity<T> emptyGet(String uri, Class<T> returnedType) {
+        return this.send(HttpMethod.GET, uri, returnedType, null, null);
     }
 
     @Override
-    public <A> ResponseEntity<?> send(HttpMethod method, String uri, Map<String, A> body) throws RestClientResponseException {
+    public <A, T> ResponseEntity<T> postWithBodyParam(String uri, Class<T> returnedType, Map<String, A> body) {
+        return this.send(HttpMethod.POST, uri, returnedType, body, null);
+    }
+
+    @Override
+    public <T> ResponseEntity<T> postWithQueryParam(String uri, Class<T> returnedType, RestUriBuilder header) {
+        return this.send(HttpMethod.POST, uri, returnedType, null, header);
+    }
+
+    @Override
+    public <A, T> ResponseEntity<T> send(HttpMethod method, String uri, Class<T> returnedType, Map<String, A> body, RestUriBuilder header) throws RestClientResponseException {
         try {
             return restTemplate.exchange(uri,
                     method,
                     body == null ? HttpEntity.EMPTY : new HttpEntity<>(body),
-                    Object.class
+                    returnedType,
+                    header == null ? null : header.build()
             );
         } catch (RestClientResponseException e) {
-            return ResponseEntity.status(e.getStatusCode()).headers(e.getResponseHeaders())
-                    .body(e.getResponseBodyAsString());
+            throw new RuntimeException();
         }
     }
 }

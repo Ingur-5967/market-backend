@@ -12,8 +12,10 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.solomka.product.common.cqrs.CommandHandler;
 import ru.solomka.product.common.pagination.PaginationObject;
 import ru.solomka.product.cqrs.command.CreateProductCommand;
@@ -129,7 +131,7 @@ public class ProductRestController {
             )
     })
     @SneakyThrows
-    @PostMapping(value = "/create-product", produces = "application/json")
+    @PostMapping(value = "/create-product", consumes = "multipart/form-data")
     public ResponseEntity<ProductEntity> createProduct(ProductCreateRequest productCreateRequest) {
         ProductEntity productEntity = createProductCommandHandler.handle(new CreateProductCommand(
                 productCreateRequest.getName(),
