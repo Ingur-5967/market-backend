@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.solomka.identity.common.cqrs.CommandHandler;
+import ru.solomka.identity.token.exception.TokenException;
 import ru.solomka.identity.token.request.AccessTokenValidateRequest;
-import ru.solomka.identity.token.response.ValidationTokenResponse;
 
 @RestController
 @RequestMapping("/identity/tokens")
@@ -35,13 +35,17 @@ public class AccessTokenValidateRestController {
                     content = @Content(mediaType = "application/json")
             ),
             @ApiResponse(
-                    responseCode = "403", description = "Exception: Token is not valid (Expired, Structure and etc.)",
+                    responseCode = "400", description = "Exception: Token is not valid (Expired, Structure and etc.)",
                     content = @Content(mediaType = "application/json")
             )
     })
-    @PostMapping(value = "/validate", consumes = {}, produces = "application/json")
-    public ResponseEntity<ValidationTokenResponse> validateToken(@RequestBody AccessTokenValidateRequest token) {
-        TokenEntity tokenEntity = extractAndValidateAccessTokenCommandHandler.handle(new ExtractAndValidateAccessTokenCommand(token.getToken()));
-        return ResponseEntity.ok(new ValidationTokenResponse(tokenEntity != null));
+    @PostMapping(value = "/validate", produces = "application/json")
+    public ResponseEntity<?> validateToken(@RequestBody AccessTokenValidateRequest token) {
+        try {
+            extractAndValidateAccessTokenCommandHandler.handle(new ExtractAndValidateAccessTokenCommand(token.getToken()));
+            return ResponseEntity.ok().build();
+        } catch (TokenException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
