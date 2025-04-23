@@ -19,7 +19,9 @@ listOf(
     "product-service-card-view-spring-minio-adapter",
     "product-service-card-view-spring-rest-adapter",
 
-    "product-service-minio"
+    "product-service-minio",
+
+    "product-service-user-snapshot-spring-web-adapter"
 ).forEach {
     include(it)
 }

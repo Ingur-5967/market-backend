@@ -11,7 +11,10 @@ import ru.solomka.product.comment.cqrs.command.handler.CreateCommentCommandHandl
 import ru.solomka.product.comment.cqrs.query.handler.GetCommentByIdQueryHandler;
 import ru.solomka.product.comment.cqrs.query.handler.GetCommentsByOwnerIdQueryHandler;
 import ru.solomka.product.comment.cqrs.query.handler.GetCommentsByProductIdQueryHandler;
+import ru.solomka.product.common.WebRequestSender;
 import ru.solomka.product.common.mapper.Mapper;
+
+import java.util.UUID;
 
 @Configuration
 @EntityScan(basePackageClasses = JpaCommentEntity.class)
@@ -38,8 +41,8 @@ public class CommentConfiguration {
     }
 
     @Bean
-    GetCommentsByProductIdQueryHandler getCommentsByProductIdQueryHandler(@NonNull CommentService commentService) {
-        return new GetCommentsByProductIdQueryHandler(commentService);
+    GetCommentsByProductIdQueryHandler getCommentsByProductIdQueryHandler(@NonNull ProductService productService, @NonNull CommentService commentService) {
+        return new GetCommentsByProductIdQueryHandler(productService, commentService);
     }
 
     @Bean
@@ -49,8 +52,9 @@ public class CommentConfiguration {
 
     @Bean
     CreateCommentCommandHandler createCommentCommandHandler(@NonNull ProductService productService,
-                                                            @NonNull CommentService commentService) {
-        return new CreateCommentCommandHandler(productService, commentService);
+                                                            @NonNull CommentService commentService,
+                                                            @NonNull WebRequestSender<Object, UUID> webRequestSender) {
+        return new CreateCommentCommandHandler(productService, commentService, webRequestSender);
     }
 
     @Bean

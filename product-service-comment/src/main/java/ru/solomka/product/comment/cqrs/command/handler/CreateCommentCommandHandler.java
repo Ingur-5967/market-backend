@@ -10,22 +10,38 @@ import ru.solomka.product.comment.CommentEntity;
 import ru.solomka.product.comment.CommentService;
 import ru.solomka.product.comment.cqrs.command.CreateCommentCommand;
 import ru.solomka.product.comment.exception.CommentAlreadyExistsException;
+import ru.solomka.product.common.WebRequestSender;
 import ru.solomka.product.common.cqrs.CommandHandler;
 import ru.solomka.product.common.exception.EntityNotFoundException;
+import ru.solomka.product.common.exception.ServiceRequestException;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CreateCommentCommandHandler implements CommandHandler<CreateCommentCommand, CommentEntity> {
 
-    @NonNull ProductService productService;
-    @NonNull CommentService commentService;
+    @NonNull
+    ProductService productService;
+    @NonNull
+    CommentService commentService;
+
+    @NonNull
+    WebRequestSender<Object, UUID> userSnapshotValidateWebRequestSender;
 
     @Override
     public CommentEntity handle(CreateCommentCommand createCommentCommand) {
+        try {
+            userSnapshotValidateWebRequestSender.getResponse(Object.class, createCommentCommand.getUserId());
+        } catch (ServiceRequestException e) {
+            throw new EntityNotFoundException("User with id '%s' not found".formatted(createCommentCommand.getUserId()));
+        }
 
-        if(!productService.existsById(createCommentCommand.getProductId()))
+
+
+        if (!productService.existsById(createCommentCommand.getProductId()))
             throw new EntityNotFoundException("Cannot add comment to to the non-existent product");
 
         commentService.findAllCommentsByOwnerId(createCommentCommand.getUserId())
@@ -53,7 +69,7 @@ public class CreateCommentCommandHandler implements CommandHandler<CreateComment
 
         List<CommentEntity> comments = commentService.findAllCommentsByProductId(productEntity.getId());
 
-        double newRating = Math.round(comments.stream().mapToDouble(CommentEntity::getRating).sum()/comments.size());
+        double newRating = Math.round(comments.stream().mapToDouble(CommentEntity::getRating).sum() / comments.size());
         productEntity.setRating(newRating);
 
         productService.update(productEntity);

@@ -33,4 +33,5 @@ dependencies {
     implementation(project(":product-service-card-view-spring-minio-adapter"))
     implementation(project(":product-service-card-view-spring-rest-adapter"))
 
+    implementation(project(":product-service-user-snapshot-spring-web-adapter"))
 }

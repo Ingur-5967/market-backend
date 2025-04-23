@@ -10,6 +10,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
+import ru.solomka.product.common.exception.ServiceRequestException;
 
 import java.util.Map;
 
@@ -55,7 +56,7 @@ public class RestRequestServiceProviderAdapter implements RestRequestServiceProv
                     header == null ? null : header.build()
             );
         } catch (RestClientResponseException e) {
-            throw new RuntimeException();
+            throw new ServiceRequestException("Cannot get response from dedicated service (Bad request/credits)");
         }
     }
 }

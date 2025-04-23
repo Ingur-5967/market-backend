@@ -19,6 +19,6 @@ public class GetProductByIdQueryHandler implements CommandHandler<GetProductById
     @Override
     public ProductEntity handle(GetProductByIdQuery getProductByIdQuery) {
         return productService.findById(getProductByIdQuery.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Product with name '%s' not found".formatted(getProductByIdQuery.getId())));
+                .orElseThrow(() -> new EntityNotFoundException("Product with id '%s' not found".formatted(getProductByIdQuery.getId())));
     }
 }

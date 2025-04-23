@@ -16,10 +16,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ru.solomka.product.common.RestRequestServiceProvider;
-import ru.solomka.product.common.RestResponseExtractor;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Component
@@ -30,7 +28,6 @@ public class OnceRequestFilter extends OncePerRequestFilter {
     @NonNull
     RestRequestServiceProvider requestServiceProvider;
 
-    @SuppressWarnings("unchecked")
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorizationHeader = request.getHeader("Authorization");
@@ -40,13 +37,13 @@ public class OnceRequestFilter extends OncePerRequestFilter {
             return;
         }
 
-        ResponseEntity<TokenFilterOperation> tokenResponse = requestServiceProvider.postWithBodyParam(
+        ResponseEntity<?> tokenResponse = requestServiceProvider.postWithBodyParam(
                 "http://identity-service:8081/identity/tokens/validate",
-                TokenFilterOperation.class,
+                Object.class,
                 Map.of("token", authorizationHeader)
         );
 
-        if (!tokenResponse.hasBody() || tokenResponse.getStatusCode() != HttpStatusCode.valueOf(200)) {
+        if (!tokenResponse.getStatusCode().is2xxSuccessful()) {
             filterChain.doFilter(request, response);
             return;
         }
