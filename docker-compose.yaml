@@ -6,7 +6,6 @@ services:
     hostname: identity-service
     env_file: .env
     build:
-      context: .
       dockerfile: Dockerfile
     environment:
       - spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
@@ -47,40 +46,6 @@ services:
       - eureka_network
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-
-  prometheus:
-    image: prom/prometheus:v2.48.1
-    container_name: prometheus
-    ports:
-      - "9090:9090"
-    command:
-      - "--config.file=/etc/prometheus/prometheus.yml"
-      - "--storage.tsdb.path=/prometheus"
-      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
-      - "--web.console.templates=/usr/share/prometheus/consoles"
-      - "--log.level=debug"
-    volumes:
-      - ./infrastructure/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-
-  loki:
-    image: grafana/loki:2.9.0
-    ports:
-      - "3100:3100"
-
-  grafana:
-    image: grafana/grafana:9.5.2
-    container_name: grafana
-    ports:
-      - "3000:3000"
-    restart: unless-stopped
-    environment:
-      PROMETHEUS_URL: http://prometheus:9090
-      LOKI_URL: http://loki:3100
-    volumes:
-      - ./infrastructure/grafana/datasources/:/etc/grafana/provisioning/datasources
-    depends_on:
-      - prometheus
-      - loki
 
 networks:
   eureka_network:

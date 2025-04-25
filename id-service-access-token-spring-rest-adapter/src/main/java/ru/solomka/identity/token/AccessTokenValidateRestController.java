@@ -45,7 +45,7 @@ public class AccessTokenValidateRestController {
             extractAndValidateAccessTokenCommandHandler.handle(new ExtractAndValidateAccessTokenCommand(token.getToken()));
             return ResponseEntity.ok().build();
         } catch (TokenException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().build();
         }
     }
 }
