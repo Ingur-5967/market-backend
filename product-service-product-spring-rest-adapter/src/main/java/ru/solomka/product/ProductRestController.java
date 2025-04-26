@@ -30,6 +30,7 @@ import java.util.UUID;
 @Tag(name = "product-endpoints", description = "Product entity management")
 @RestController
 @RequestMapping("/product/catalog")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductRestController {

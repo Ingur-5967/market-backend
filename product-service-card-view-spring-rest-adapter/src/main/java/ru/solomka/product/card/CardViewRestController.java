@@ -26,6 +26,7 @@ import java.util.UUID;
 
 @Tag(name = "cardview-endpoints", description = "Management preview images for products")
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/product/source")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
