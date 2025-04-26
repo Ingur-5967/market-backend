@@ -20,8 +20,8 @@ import ru.solomka.identity.user.entity.User;
 import java.util.UUID;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/identity/users")
-@SecurityRequirement(name = "Bearer Authentication")
 @RequiredArgsConstructor
 public class UserRestController {
 

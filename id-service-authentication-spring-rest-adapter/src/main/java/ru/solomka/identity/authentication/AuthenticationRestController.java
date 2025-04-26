@@ -9,10 +9,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.solomka.identity.authentication.cqrs.AuthenticationUserCommand;
 import ru.solomka.identity.authentication.cqrs.RegisterUserCommand;
 import ru.solomka.identity.authentication.request.SigninUserRequest;
@@ -24,6 +21,7 @@ import ru.solomka.identity.token.TokenPair;
 import ru.solomka.identity.user.UserEntity;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/identity/authentication")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
