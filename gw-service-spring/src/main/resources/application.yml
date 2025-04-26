@@ -11,6 +11,19 @@ logging:
 spring:
   application:
     name: ${APPLICATION_PROJECT_NAME}
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedMethods:
+              - GET
+              - POST
+              - DELETE
+              - PUT
+              - PATCH
+            allowedHeaders: "*"
 
 eureka:
   instance:
