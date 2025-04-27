@@ -52,7 +52,6 @@ public class HttpSecurityConfiguration {
     @Bean
     public CorsConfigurationSource corsWebFilter() {
         CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.setAllowCredentials(true);
         corsConfig.setAllowedOriginPatterns(Collections.singletonList("*"));
         corsConfig.setAllowedOrigins(Collections.singletonList("*"));
         corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
