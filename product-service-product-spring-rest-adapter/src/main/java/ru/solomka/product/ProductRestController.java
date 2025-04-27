@@ -12,11 +12,13 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.solomka.product.common.cqrs.CommandHandler;
+import ru.solomka.product.common.pagination.PaginationFilter;
 import ru.solomka.product.common.pagination.PaginationObject;
 import ru.solomka.product.cqrs.command.CreateProductCommand;
 import ru.solomka.product.cqrs.query.GetProductByIdQuery;
@@ -52,11 +54,16 @@ public class ProductRestController {
             )
     })
     @GetMapping(value = "/search/filter", produces = "application/json")
-    public ResponseEntity<PaginationObject<ProductEntity>> getProductByFilter(GetProductsPaginationRequest getProductsPaginationRequest) {
+    public ResponseEntity<PaginationObject<ProductEntity>> getProductByFilter(@RequestParam("offset") Integer offset,
+                                                                              @RequestParam("limit") Integer limit,
+                                                                              @RequestParam("filterType") String filterType,
+                                                                              @RequestParam("sortBy") String sortBy) {
+
+
         PaginationObject<ProductEntity> entityPaginationObject = productsByCategoryQueryCommandHandler.handle(
                 new GetProductsByFilterQuery(
-                        getProductsPaginationRequest.getOffset(), getProductsPaginationRequest.getLimit(),
-                        getProductsPaginationRequest.getFilterType(), getProductsPaginationRequest.getSortBy()
+                        offset, limit,
+                        PaginationFilter.valueOf(filterType), sortBy
                 )
         );
         return ResponseEntity.ok(entityPaginationObject);

@@ -12,12 +12,11 @@ import ru.solomka.product.common.pagination.PaginationFilter;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class GetProductsPaginationRequest {
 
-
     @NonNull Integer offset;
 
     @NonNull Integer limit;
 
-    @NonNull PaginationFilter filterType;
+    @NonNull String filterType;
 
     @NonNull String[] sortBy;
 }

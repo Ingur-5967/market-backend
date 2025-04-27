@@ -18,5 +18,5 @@ public class GetProductsByFilterQuery {
 
     @NonNull PaginationFilter filter;
 
-    @NonNull String[] sortFieldValue;
+    @NonNull String sortFieldValue;
 }
