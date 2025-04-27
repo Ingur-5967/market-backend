@@ -30,7 +30,6 @@ import java.util.UUID;
 @Tag(name = "product-endpoints", description = "Product entity management")
 @RestController
 @RequestMapping("/product/catalog")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductRestController {
@@ -53,7 +52,7 @@ public class ProductRestController {
             )
     })
     @GetMapping(value = "/search/filter", produces = "application/json")
-    public ResponseEntity<PaginationObject<ProductEntity>> getProductByFilter(@RequestBody GetProductsPaginationRequest getProductsPaginationRequest) {
+    public ResponseEntity<PaginationObject<ProductEntity>> getProductByFilter(GetProductsPaginationRequest getProductsPaginationRequest) {
         PaginationObject<ProductEntity> entityPaginationObject = productsByCategoryQueryCommandHandler.handle(
                 new GetProductsByFilterQuery(
                         getProductsPaginationRequest.getOffset(), getProductsPaginationRequest.getLimit(),

@@ -27,7 +27,6 @@ import java.util.UUID;
 
 @Tag(name = "comment-endpoints", description = "Product comment management")
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/product/feedback")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)

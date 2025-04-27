@@ -33,12 +33,12 @@ public class HttpSecurityConfiguration {
                                             @NotNull AccessDeniedHandler accessDeniedHandler,
                                             @NotNull OnceRequestFilter requestFilter) throws Exception {
         return http
+                .cors(cors -> cors.configurationSource(corsWebFilter()))
                 .sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(cors -> cors.configurationSource(corsWebFilter()))
                 .authorizeHttpRequests(registry -> registry.requestMatchers(
                         "/product/v3/api-docs/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated()
@@ -52,6 +52,8 @@ public class HttpSecurityConfiguration {
     @Bean
     public CorsConfigurationSource corsWebFilter() {
         CorsConfiguration corsConfig = new CorsConfiguration();
+        corsConfig.setAllowCredentials(true);
+        corsConfig.setAllowedOriginPatterns(Collections.singletonList("*"));
         corsConfig.setAllowedOrigins(Collections.singletonList("*"));
         corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         corsConfig.setAllowedHeaders(Collections.singletonList("*"));
