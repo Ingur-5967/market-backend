@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import ru.solomka.identity.common.cqrs.CommandHandler;
 import ru.solomka.identity.common.cqrs.query.GetEntityByIdQuery;
 import ru.solomka.identity.common.exception.EntityNotFoundException;
+import ru.solomka.identity.user.request.UserValidationRequest;
 
 import java.util.UUID;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/identity/users")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -21,10 +21,10 @@ public class UserValidationRestController {
 
     @NonNull CommandHandler<GetEntityByIdQuery, UserEntity> getEntityByIdQueryCommandHandler;
 
-    @PostMapping(value = "/validate/{userId}", produces = "application/json")
-    public ResponseEntity<?> existsUser(@PathVariable("userId") UUID userId) {
+    @PostMapping(value = "/validate", produces = "application/json")
+    public ResponseEntity<?> existsUser(@RequestBody UserValidationRequest userValidationRequest) {
         try {
-            getEntityByIdQueryCommandHandler.handle(new GetEntityByIdQuery(userId));
+            getEntityByIdQueryCommandHandler.handle(new GetEntityByIdQuery(userValidationRequest.getUserId()));
             return ResponseEntity.ok().build();
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();

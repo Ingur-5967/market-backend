@@ -15,7 +15,6 @@ import ru.solomka.identity.token.exception.TokenException;
 import ru.solomka.identity.token.request.AccessTokenValidateRequest;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/identity/tokens")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -43,6 +42,7 @@ public class AccessTokenValidateRestController {
             extractAndValidateAccessTokenCommandHandler.handle(new ExtractAndValidateAccessTokenCommand(token.getToken()));
             return ResponseEntity.ok().build();
         } catch (TokenException e) {
+            e.fillInStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }
