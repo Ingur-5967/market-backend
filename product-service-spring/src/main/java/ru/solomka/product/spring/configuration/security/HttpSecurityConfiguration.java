@@ -40,7 +40,7 @@ public class HttpSecurityConfiguration {
                 .httpBasic(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(registry -> registry.requestMatchers(
-                        "/product/v3/api-docs/**", "/v3/api-docs/**").permitAll()
+                        "/product/v3/api-docs/**", "/v3/api-docs/**", "/product/catalog/search", "/product/catalog/search/filter").permitAll()
                         .anyRequest().authenticated()
                 ).exceptionHandling(configurer -> configurer
                         .authenticationEntryPoint(authenticationEntryPoint)
