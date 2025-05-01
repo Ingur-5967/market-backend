@@ -64,9 +64,10 @@ public class CardViewRestController {
     })
     @SneakyThrows
     @GetMapping(produces = "application/json")
-    public ResponseEntity<CardViewResponse> getCardFileSource(@RequestParam("productId") UUID id) {
+    public ResponseEntity<byte[]> getCardFileSource(@RequestParam("productId") UUID id) {
         byte[] image = getImageCardByIdQueryHandler.handle(new GetImageCardByIdQuery(id));
-        return ResponseEntity.ok(new CardViewResponse(image));
+
+        return ResponseEntity.ok(image);
     }
 
     @Operation(
