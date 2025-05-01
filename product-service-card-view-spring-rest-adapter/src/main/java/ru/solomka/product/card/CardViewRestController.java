@@ -40,7 +40,7 @@ public class CardViewRestController {
             method = "GET",
             parameters = {
                     @Parameter(
-                            name = "Field 'id'",
+                            name = "Field 'productId'",
                             description = "The ID of the product you want to get a picture of the product from",
                             examples = {
                                     @ExampleObject(name = "id", description = "f8a19d45-5784-4792-8678-64cb7fc0ece1")
