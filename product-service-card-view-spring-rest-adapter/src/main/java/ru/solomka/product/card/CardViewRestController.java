@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.solomka.product.card.cqrs.command.PutImageCardCommand;
@@ -22,6 +22,9 @@ import ru.solomka.product.card.cqrs.query.GetImageCardByIdQuery;
 import ru.solomka.product.card.response.CardViewResponse;
 import ru.solomka.product.common.cqrs.CommandHandler;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.net.URLConnection;
 import java.util.UUID;
 
 @Tag(name = "cardview-endpoints", description = "Management preview images for products")
@@ -63,11 +66,13 @@ public class CardViewRestController {
             )
     })
     @SneakyThrows
-    @GetMapping(produces = "application/json")
+    @GetMapping
     public ResponseEntity<byte[]> getCardFileSource(@RequestParam("productId") UUID id) {
         byte[] image = getImageCardByIdQueryHandler.handle(new GetImageCardByIdQuery(id));
-
-        return ResponseEntity.ok(image);
+        HttpHeaders headers = new HttpHeaders();
+        String mimeType = URLConnection.guessContentTypeFromStream(new ByteArrayInputStream(image));
+        headers.setContentType(MediaType.valueOf("image/%s".formatted(mimeType)));
+        return new ResponseEntity<>(image, headers, HttpStatus.OK);
     }
 
     @Operation(
