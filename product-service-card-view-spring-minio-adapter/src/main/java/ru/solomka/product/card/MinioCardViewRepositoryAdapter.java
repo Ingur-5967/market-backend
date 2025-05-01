@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import ru.solomka.product.minio.MinioComponent;
 import ru.solomka.product.minio.MinioValidator;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
@@ -49,9 +51,9 @@ public class MinioCardViewRepositoryAdapter implements CardViewRepository {
         if(!this.existsById(id))
             throw new RuntimeException("File in bucket with name '%s' does not exist".formatted(id.toString()));
 
-        String data = minioComponent.getObject(id.toString()).orElseThrow(RuntimeException::new);
+        InputStream is = minioComponent.getObject(id.toString()).orElseThrow(RuntimeException::new);
 
-        return Optional.of(CardViewEntity.builder().id(id).imageBytes(data.getBytes()).createdAt(Instant.now()).build());
+        return Optional.of(CardViewEntity.builder().id(id).imageBytes(is.readAllBytes()).createdAt(Instant.now()).build());
     }
 
     @SneakyThrows

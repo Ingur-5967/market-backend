@@ -53,9 +53,8 @@ public class MinioComponentAdapter implements MinioComponent, MinioValidator {
 
     @SneakyThrows
     @Override
-    public Optional<String> getObject(String object) {
-        InputStream stream = client.getObject(GetObjectArgs.builder().bucket(this.bucketName).object(object).build());
-        return Optional.of(new String(stream.readAllBytes()));
+    public Optional<InputStream> getObject(String object) {
+        return Optional.ofNullable(client.getObject(GetObjectArgs.builder().bucket(this.bucketName).object(object).build()));
     }
 
     @SneakyThrows

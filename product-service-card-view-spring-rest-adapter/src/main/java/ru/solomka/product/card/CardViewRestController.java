@@ -69,10 +69,7 @@ public class CardViewRestController {
     @GetMapping
     public ResponseEntity<byte[]> getCardFileSource(@RequestParam("productId") UUID id) {
         byte[] image = getImageCardByIdQueryHandler.handle(new GetImageCardByIdQuery(id));
-        HttpHeaders headers = new HttpHeaders();
-        String mimeType = URLConnection.guessContentTypeFromStream(new ByteArrayInputStream(image));
-        headers.setContentType(MediaType.valueOf("image/%s".formatted(mimeType)));
-        return new ResponseEntity<>(image, headers, HttpStatus.OK);
+        return ResponseEntity.ok(image);
     }
 
     @Operation(
