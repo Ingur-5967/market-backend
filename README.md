@@ -9,7 +9,7 @@ Docker: [https://www.docker.com/products/docker-desktop/]
 - Откройте команду строку от имени администратора и введите команду: docker network create -d bridge eureka_network
 - После этого можете переходить к запуску сервисов 
 
-Порядок важен запуска сервисов:
+Порядок запуска сервисов:
 
 1. gateway-server-service
 2. gateway-request-service
