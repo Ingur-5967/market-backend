@@ -39,11 +39,11 @@ public class CardViewRestController {
     @NonNull CommandHandler<GetImageCardByIdQuery, byte[]> getImageCardByIdQueryHandler;
 
     @Operation(
-            summary = "Download an image from the minio container in byte representation",
+            summary = "Download an image from the minio container in byte representation by product id",
             method = "GET",
             parameters = {
                     @Parameter(
-                            name = "Field 'productId'",
+                            name = "productId",
                             description = "The ID of the product you want to get a picture of the product from",
                             examples = {
                                     @ExampleObject(name = "id", description = "f8a19d45-5784-4792-8678-64cb7fc0ece1")
@@ -67,8 +67,8 @@ public class CardViewRestController {
     })
     @SneakyThrows
     @GetMapping
-    public ResponseEntity<byte[]> getCardFileSource(@RequestParam("productId") UUID id) {
-        byte[] image = getImageCardByIdQueryHandler.handle(new GetImageCardByIdQuery(id));
+    public ResponseEntity<byte[]> getCardFileSource(@RequestParam("productId") UUID productId) {
+        byte[] image = getImageCardByIdQueryHandler.handle(new GetImageCardByIdQuery(productId));
         return ResponseEntity.ok(image);
     }
 
@@ -77,15 +77,15 @@ public class CardViewRestController {
             method = "POST",
             parameters = {
                     @Parameter(
-                            name = "Field 'id'",
+                            name = "productId",
                             description = "The ID of the product you want to upload a picture of the product to",
                             examples = {
                                     @ExampleObject(name = "id", description = "f8a19d45-5784-4792-8678-64cb7fc0ece1")
                             }
                     ),
                     @Parameter(
-                            name = "Field 'file'",
-                            description = "The image file that you want to send to the container"
+                            name = "file",
+                            description = "The image file that you want to send to the container (Format base64)"
                     )
             }
     )
@@ -105,9 +105,9 @@ public class CardViewRestController {
     })
     @SneakyThrows
     @PostMapping(value = "/{productId}", produces = "application/json")
-    public ResponseEntity<CardViewEntity> getCardFileSource(@PathVariable("productId") UUID id,
+    public ResponseEntity<CardViewEntity> uploadCardImage(@PathVariable("productId") UUID productId,
                                                             @ParameterObject @RequestBody MultipartFile file) {
-        CardViewEntity cardViewEntity = putImageCardCommandHandler.handle(new PutImageCardCommand(id, file.getBytes()));
+        CardViewEntity cardViewEntity = putImageCardCommandHandler.handle(new PutImageCardCommand(productId, file.getBytes()));
         return ResponseEntity.ok(cardViewEntity);
     }
 }

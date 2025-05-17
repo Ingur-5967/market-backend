@@ -35,27 +35,15 @@ public class CommentRestController {
     @NonNull CommandHandler<CreateCommentCommand, CommentEntity> createCommentCommandHandler;
 
     @NonNull CommandHandler<GetCommentsByProductIdQuery, List<CommentEntity>> getCommentsByProductIdQueryCommandHandler;
-    @NonNull CommandHandler<GetCommentByIdQuery, CommentEntity> getCommentByIdQueryCommandHandler;
-    @NonNull CommandHandler<GetCommentsByOwnerIdQuery, List<CommentEntity>> getCommentsByOwnerIdQueryCommandHandler;
 
     @Operation(
-            summary = "Get all comments by id",
+            summary = "Get all comments by product id",
             method = "GET",
             parameters = {
                     @Parameter(
-                            name = "Field 'filterType'",
+                            name = "productId",
                             examples = {
-                                    @ExampleObject(value = "by-product", description = "Product ID search"),
-                                    @ExampleObject(value = "by-owner", description = "Owner comment ID search"),
-                                    @ExampleObject(value = "by-id", description = "Comment ID search")
-                            }
-                    ),
-                    @Parameter(
-                            name = "Field 'id'",
-                            examples = {
-                                    @ExampleObject(name = "Product ID value", description = "f8a19d45-5784-4792-8678-64cb7fc0ece1"),
-                                    @ExampleObject(name = "Owner ID value", description = "94fc559f-5fa3-464a-8471-1a2c1dcdfc76"),
-                                    @ExampleObject(name = "Comment ID value", description = "1753a2ab-05d9-4249-b878-db1ec915c03f")
+                                    @ExampleObject(name = "Product ID value", description = "Example: f8a19d45-5784-4792-8678-64cb7fc0ece1"),
                             }
                     )
             }
@@ -69,21 +57,10 @@ public class CommentRestController {
                     responseCode = "404", description = "Exception: Product entity with current id not found",
                     content = @Content
             ),
-            @ApiResponse(
-                    responseCode = "500", description = "Exception: Invalid filter type",
-                    content = @Content
-            )
     })
-    @GetMapping(value = "/{filterType}/{searchBy}", produces = "application/json")
-    public ResponseEntity<List<CommentEntity>> getCommentsByProductId(@PathVariable("filterType") String filterType,
-                                                                      @PathVariable("searchBy") UUID id) {
-        List<CommentEntity> comments;
-        switch (filterType) {
-            case "by-product" -> comments = getCommentsByProductIdQueryCommandHandler.handle(new GetCommentsByProductIdQuery(id));
-            case "by-owner" -> comments = getCommentsByOwnerIdQueryCommandHandler.handle(new GetCommentsByOwnerIdQuery(id));
-            case "by-id" -> comments = Collections.singletonList(getCommentByIdQueryCommandHandler.handle(new GetCommentByIdQuery(id)));
-            default -> throw new IllegalArgumentException("Invalid filter type");
-        }
+    @GetMapping(value = "/search", produces = "application/json")
+    public ResponseEntity<List<CommentEntity>> getCommentsByProductId(@RequestParam("productId") UUID productId) {
+        List<CommentEntity> comments = getCommentsByProductIdQueryCommandHandler.handle(new GetCommentsByProductIdQuery(productId));;
         return ResponseEntity.ok(comments);
     }
 

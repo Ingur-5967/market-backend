@@ -44,7 +44,7 @@ public class ProductRestController {
     @NonNull CommandHandler<CreateProductCommand, ProductEntity> createProductCommandHandler;
 
     @Operation(
-            summary = "Get product by filter parameters",
+            summary = "Get product by filter parameters (Pagination)",
             method = "GET"
     )
     @ApiResponses(value = {
@@ -70,7 +70,7 @@ public class ProductRestController {
     }
 
     @Operation(
-            summary = "Get product entity by id",
+            summary = "Get product entity by uuid/name",
             method = "GET"
     )
     @ApiResponses(value = {
