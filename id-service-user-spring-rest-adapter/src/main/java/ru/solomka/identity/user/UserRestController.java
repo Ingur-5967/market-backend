@@ -4,9 +4,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -31,7 +33,7 @@ public class UserRestController {
 
 
     @Operation(
-            summary = "Get user entity by uid",
+            summary = "Get user entity by id",
             method = "GET"
     )
     @ApiResponses(value = {
@@ -44,7 +46,7 @@ public class UserRestController {
                     content = @Content(mediaType = "application/json")
             )
     })
-    @GetMapping(value = "/{userId}", produces = "application/json")
+    @GetMapping(produces = "application/json")
     public ResponseEntity<User> getUserById(
                                             @Parameter(
                                                     name = "Field 'userId'",
@@ -54,7 +56,7 @@ public class UserRestController {
                                                             @ExampleObject(value = "f8a19d45-5784-4792-8678-64cb7fc0ece1"),
                                                     }
                                             )
-                                            @PathVariable("userId") UUID userId) {
+                                            @RequestParam("userId") UUID userId) {
 
         GetEntityByIdQuery getUserByIdQuery = new GetEntityByIdQuery(userId);
         UserEntity userEntity = getEntityByIdQueryCommandHandler.handle(getUserByIdQuery);
@@ -69,10 +71,11 @@ public class UserRestController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200", description = "Returns current session user entity",
-                    content = @Content(mediaType = "application/json")
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))}
+
             ),
             @ApiResponse(
-                    responseCode = "401", description = "Exception: Unauthorized",
+                    responseCode = "401", description = "Exception: Unauthorized (Access token not found)",
                     content = @Content(mediaType = "application/json")
             )
     })

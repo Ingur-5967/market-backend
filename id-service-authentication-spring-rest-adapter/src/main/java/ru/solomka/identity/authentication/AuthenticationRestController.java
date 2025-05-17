@@ -33,7 +33,7 @@ public class AuthenticationRestController {
     @NonNull CommandHandler<AuthenticationUserCommand, TokenPair> authenticationUserCommandHandler;
 
     @Operation(
-            summary = "Registration/Create user",
+            summary = "Registration user",
             method = "POST"
     )
     @ApiResponses(value = {
@@ -61,7 +61,7 @@ public class AuthenticationRestController {
     }
 
     @Operation(
-            summary = "Registration/Create user",
+            summary = "Authorize exists user",
             method = "POST"
     )
     @ApiResponses(value = {

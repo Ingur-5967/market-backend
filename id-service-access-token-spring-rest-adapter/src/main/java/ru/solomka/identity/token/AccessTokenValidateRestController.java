@@ -23,12 +23,12 @@ public class AccessTokenValidateRestController {
     @NonNull CommandHandler<ExtractAndValidateAccessTokenCommand, TokenEntity> extractAndValidateAccessTokenCommandHandler;
 
     @Operation(
-            summary = "Validate access-token",
+            summary = "Validate token",
             method = "POST"
     )
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "200", description = "Returns 'True' (Token is valid)",
+                    responseCode = "200", description = "Returns 200 (OK) (Token is valid)",
                     content = @Content(mediaType = "application/json")
             ),
             @ApiResponse(
