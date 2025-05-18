@@ -40,4 +40,5 @@ dependencies {
 
     implementation(project(":id-service-refresh-token"))
     implementation(project(":id-service-refresh-token-spring-jpa-adapter"))
+    implementation(project(":id-service-refresh-token-spring-rest-adapter"))
 }

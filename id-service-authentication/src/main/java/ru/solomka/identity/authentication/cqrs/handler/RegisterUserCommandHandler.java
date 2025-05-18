@@ -41,13 +41,6 @@ public class RegisterUserCommandHandler implements CommandHandler<RegisterUserCo
         if(userService.findByUsername(userEntity.getUsername()).isPresent() || userService.findByEmail(userEntity.getEmail()).isPresent())
             throw new EntityAlreadyExistsException("User with identity credits [username/email] already exists");
 
-        PrincipalEntity principal = new PrincipalEntity(
-                userEntity.getId(),
-                userEntity.getUsername()
-        );
-
-        principalService.setPrincipal(principal);
-
         return userService.create(userEntity);
     }
 }

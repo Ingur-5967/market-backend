@@ -27,7 +27,7 @@ import java.util.UUID;
 public class UserRestController {
 
     @NonNull CommandHandler<GetEntityByIdQuery, UserEntity> getEntityByIdQueryCommandHandler;
-    @NonNull CommandHandler<Void, UserEntity> getCurrentSessionUserEntityQueryHandler;
+    @NonNull CommandHandler<Object, UserEntity> getCurrentSessionUserEntityQueryHandler;
 
     @NonNull Mapper<UserEntity, User> mapper;
 
@@ -81,7 +81,7 @@ public class UserRestController {
     })
     @GetMapping(value = "/me", produces = "application/json")
     public ResponseEntity<User> getCurrentUser() {
-        UserEntity userEntity = getCurrentSessionUserEntityQueryHandler.handle(Void.TYPE.getDeclaredConstructor().newInstance());
+        UserEntity userEntity = getCurrentSessionUserEntityQueryHandler.handle(null);
         return ResponseEntity.ok(mapper.mapToInfrastructure(userEntity));
     }
 }

@@ -32,12 +32,14 @@ public class AuthenticationConfiguration {
     @Bean
     AuthenticationUserCommandHandler authenticateUserCommandHandler(
             @NotNull AuthenticationService authenticationService,
+            @NonNull RefreshTokenService refreshTokenService,
             @NonNull TokenPairFactory tokenPairFactory,
             @NonNull IdentityTokenProperties accessTokenProperties,
             @NonNull IdentityTokenProperties refreshTokenProperties
     ) {
         return new AuthenticationUserCommandHandler(
                 authenticationService,
+                refreshTokenService,
                 tokenPairFactory,
                 accessTokenProperties.getAccessToken().getLifetime(),
                 refreshTokenProperties.getRefreshToken().getLifetime()

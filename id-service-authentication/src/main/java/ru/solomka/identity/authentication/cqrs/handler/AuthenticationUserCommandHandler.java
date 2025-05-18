@@ -8,8 +8,7 @@ import ru.solomka.identity.authentication.AuthenticationService;
 import ru.solomka.identity.authentication.cqrs.AuthenticationUserCommand;
 import ru.solomka.identity.common.cqrs.CommandHandler;
 import ru.solomka.identity.principal.PrincipalEntity;
-import ru.solomka.identity.token.TokenPair;
-import ru.solomka.identity.token.TokenPairFactory;
+import ru.solomka.identity.token.*;
 
 import java.time.Duration;
 
@@ -18,6 +17,8 @@ import java.time.Duration;
 public class AuthenticationUserCommandHandler implements CommandHandler<AuthenticationUserCommand, TokenPair> {
 
     @NotNull AuthenticationService authenticationService;
+
+    @NotNull RefreshTokenService refreshTokenService;
 
     @NotNull TokenPairFactory tokenPairFactory;
 
@@ -31,6 +32,14 @@ public class AuthenticationUserCommandHandler implements CommandHandler<Authenti
                 authenticateUserCommand.getUsername(),
                 authenticateUserCommand.getPassword()
         );
-        return tokenPairFactory.create(principal, accessTokenLifetime, refreshTokenLifetime);
+
+        TokenPair tokenPair = tokenPairFactory.create(principal, accessTokenLifetime, refreshTokenLifetime);
+
+        if(refreshTokenService.existsById(tokenPair.getRefreshToken().getId()))
+            refreshTokenService.deleteById(tokenPair.getRefreshToken().getId());
+
+        refreshTokenService.create(RefreshTokenEntity.builder().id(tokenPair.getRefreshToken().getId()).build());
+
+        return tokenPair;
     }
 }

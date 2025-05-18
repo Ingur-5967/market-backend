@@ -1,19 +1,8 @@
-plugins {
-    id("java")
-}
-
-group = "ru.solomka.identity.token"
-version = "unspecified"
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-}
+    implementation(project(":id-service-common"))
+    implementation(project(":id-service-access-token"))
+    implementation(project(":id-service-token"))
 
-tasks.test {
-    useJUnitPlatform()
+    implementation(rootProject.libs.springframework.spring.boot.starter.web)
+    implementation(rootProject.libs.springdoc.springdoc.openapi.starter.webmvc.ui)
 }
