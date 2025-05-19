@@ -16,6 +16,7 @@ public class PrincipalRepositoryAdapter implements PrincipalRepository {
     public PrincipalEntity setPrincipal(PrincipalEntity principal) {
         PrincipalTokenAuthentication authentication = new PrincipalTokenAuthentication(principal);
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        authentication.setAuthenticated(true);
         return principal;
     }
 

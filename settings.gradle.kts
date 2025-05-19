@@ -27,6 +27,7 @@ listOf(
     "id-service-user",
     "id-service-user-spring-jpa-adapter",
     "id-service-user-spring-rest-adapter",
+    "id-service-user-spring-kafka-adapter"
 ).forEach {
     include(it)
 }

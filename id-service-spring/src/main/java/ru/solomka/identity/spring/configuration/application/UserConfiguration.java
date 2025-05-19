@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import ru.solomka.identity.common.EntityNotificationService;
 import ru.solomka.identity.common.cqrs.query.handler.GetEntityByIdQueryHandler;
 import ru.solomka.identity.common.mapper.Mapper;
 import ru.solomka.identity.principal.PrincipalService;
@@ -20,8 +21,9 @@ public class UserConfiguration {
 
     @Bean
     UserService userService(@NonNull UserRepository userRepository,
-                            @NonNull PrincipalService principalService) {
-        return new UserService(userRepository, principalService);
+                            @NonNull PrincipalService principalService,
+                            @NonNull EntityNotificationService<UserEntity> entityEntityNotificationService) {
+        return new UserService(userRepository, principalService, entityEntityNotificationService);
     }
 
     @Bean

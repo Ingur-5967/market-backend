@@ -7,6 +7,8 @@ dependencies {
     implementation(rootProject.libs.springframework.spring.boot.starter.cache)
     implementation(rootProject.libs.springframework.spring.boot.starter.validation)
 
+    implementation(rootProject.libs.springframework.spring.boot.kafka)
+
     implementation(libs.springframework.spring.boot.loadbalancer)
 
     implementation(libs.springframework.spring.boot.eureka.client)
@@ -27,6 +29,7 @@ dependencies {
     implementation(project(":id-service-user"))
     implementation(project(":id-service-user-spring-jpa-adapter"))
     implementation(project(":id-service-user-spring-rest-adapter"))
+    implementation(project(":id-service-user-spring-kafka-adapter"))
 
     implementation(project(":id-service-authentication"))
     implementation(project(":id-service-authentication-spring-rest-adapter"))

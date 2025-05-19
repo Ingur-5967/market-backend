@@ -25,6 +25,7 @@ springframework-spring-boot-eureka-client = { module = 'org.springframework.clou
 springframework-spring-boot-starter-cache = { module = 'org.springframework.boot:spring-boot-starter-cache' }
 springframework-spring-boot-starter = { module = 'org.springframework.boot:spring-boot-starter' }
 springframework-spring-boot-configuration-processor = { module = 'org.springframework.boot:spring-boot-configuration-processor' }
+springframework-spring-boot-kafka = { module = 'org.springframework.kafka:spring-kafka' }
 
 # Java Web Token
 nimbus-jose-jwt = { module = 'com.nimbusds:nimbus-jose-jwt', version.ref = 'nimbusds-nimbus-jose-jwt' }
