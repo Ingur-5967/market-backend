@@ -16,16 +16,10 @@ public class GetCurrentUserSessionQueryHandler implements CommandHandler<Object,
 
     @Override
     public UserEntity handle(Object commandEntity) {
-
-        System.out.println(principalService.isAuthenticated());
-        System.out.println(principalService.getPrincipal());
-
         if(!principalService.isAuthenticated())
             throw new RuntimeException("Not authenticated");
 
         PrincipalEntity entity = principalService.getPrincipal();
-
-        System.out.println(entity);
 
         return getEntityByIdQueryHandler.handle(new GetEntityByIdQuery(entity.getId()));
     }
