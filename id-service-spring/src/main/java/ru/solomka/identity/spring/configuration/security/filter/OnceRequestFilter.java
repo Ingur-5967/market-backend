@@ -46,14 +46,12 @@ public class OnceRequestFilter extends OncePerRequestFilter {
         }
 
         TokenEntity tokenEntity = tokenExtractor.extract(authorizationHeader);
-        System.out.println(tokenEntity);
 
         if(tokenEntity != null) {
             UserEntity userEntity = userService.getById(tokenEntity.getUserId());
             principalService.setPrincipal(PrincipalEntity.builder().id(userEntity.getId()).username(userEntity.getUsername()).build());
-            filterChain.doFilter(request, response);
-            return;
         }
+
         filterChain.doFilter(request, response);
     }
 

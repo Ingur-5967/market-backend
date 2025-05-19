@@ -8,7 +8,6 @@ public class PrincipalRepositoryAdapter implements PrincipalRepository {
 
     @Override
     public Optional<PrincipalEntity> findPrincipal() {
-        System.out.println( SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         return Optional.of((PrincipalEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
